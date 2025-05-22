@@ -5147,8 +5147,8 @@ type
   PD3DRMLoadReource = ^TD3DRMLoadReource;
   TD3DRMLoadReource = record
     hModule: HMODULE;
-    lpName: PChar;
-    lpType: PChar;
+    lpName: PAnsiChar;
+    lpType: PAnsiChar;
   end;
 
   D3DRMLOADRESOURCE = TD3DRMLoadReource;
@@ -5497,11 +5497,11 @@ type
       lpD3DRMview: IDirect3DRMViewport): Longint; cdecl;
   D3DRMUSERVISUALCALLBACK = TD3DRMUserVisualCallback;
 
-  TD3DRMLoadTextureCallback = function(tex_name: PChar; arg: Pointer;
+  TD3DRMLoadTextureCallback = function(tex_name: PAnsiChar; arg: Pointer;
     out lpD3DRMTex: IDirect3DRMTexture): HResult; cdecl;
   D3DRMLOADTEXTURECALLBACK = TD3DRMLoadTextureCallback;
 
-  TD3DRMLoadTexture3Callback = function(tex_name: PChar; arg: Pointer;
+  TD3DRMLoadTexture3Callback = function(tex_name: PAnsiChar; arg: Pointer;
     out lpD3DRMTex: IDirect3DRMTexture3): HResult; cdecl;
   D3DRMLOADTEXTURE3CALLBACK = TD3DRMLoadTexture3Callback;
 
@@ -5554,9 +5554,9 @@ type
         lpArg: Pointer): HResult; stdcall;
     function SetAppData(ulData: DWORD): HResult; stdcall;
     function GetAppData: DWORD; stdcall;
-    function SetName(lpName: PChar): HResult; stdcall;
-    function GetName(var lpdwSize: DWORD; lpName: PChar): HResult; stdcall;
-    function GetClassName(var lpdwSize: DWORD; lpName: PChar): HResult; stdcall;
+    function SetName(lpName: PAnsiChar): HResult; stdcall;
+    function GetName(var lpdwSize: DWORD; lpName: PAnsiChar): HResult; stdcall;
+    function GetClassName(var lpdwSize: DWORD; lpName: PAnsiChar): HResult; stdcall;
   end;
 
   IDirect3DRMObject2 = interface(IUnknown)
@@ -5571,7 +5571,7 @@ type
     function GetDirect3DRM(out lplpDirect3DRM: IDirect3DRM): HResult; stdcall;
     function GetName(var lpdwSize: DWORD; lpName: LPSTR): HResult; stdcall;
     function SetClientData(dwID: DWORD; lplpvData: Pointer; dwFlags: DWORD): HResult; stdcall;
-    function SetName(lpName: PChar): HResult; stdcall;
+    function SetName(lpName: PAnsiChar): HResult; stdcall;
     function GetAge(dwFlags: DWORD; var pdwAge: DWORD): HResult; stdcall;
   end;
 
@@ -5809,7 +5809,7 @@ type
     function SetQuaternion(lpRef: IDirect3DRMFrame2; var quat: TD3DRMQuaternion): HResult; stdcall;
     function RayPick(lpRefFrame: IDirect3DRMFrame; const ray: TD3DRMRay;
         dwFlags: DWORD; out lplpPicked2Array: IDirect3DRMPicked2Array): HResult; stdcall;
-    function Save(lpFilename: PChar; d3dFormat: TD3DRMXOFFormat;
+    function Save(lpFilename: PAnsiChar; d3dFormat: TD3DRMXOFFormat;
         d3dSaveFlags: TD3DRMSaveOptions): HResult; stdcall;
   end;
 
@@ -5904,7 +5904,7 @@ type
     function SetQuaternion(lpRef: IDirect3DRMFrame3; var quat: TD3DRMQuaternion): HResult; stdcall;
     function RayPick(lpRefFrame: IDirect3DRMFrame3; const ray: TD3DRMRay;
         dwFlags: DWORD; out lplpPicked2Array: IDirect3DRMPicked2Array): HResult; stdcall;
-    function Save(lpFilename: PChar; d3dFormat: TD3DRMXOFFormat;
+    function Save(lpFilename: PAnsiChar; d3dFormat: TD3DRMXOFFormat;
         d3dSaveFlags: TD3DRMSaveOptions): HResult; stdcall;
     // IDirect3DRMFrame3 methods
     function TransformVectors(reference: IDirect3DRMFrame3; dwNumVectors: DWORD;
@@ -6050,7 +6050,7 @@ type
     // IDirect3DRMMeshBuilder methods
     function Load(lpvObjSource, lpvObjID: Pointer; d3drmLOFlags: TD3DRMLoadOptions;
         d3drmLoadTextureProc: TD3DRMLoadTextureCallback; lpvArg: Pointer): HResult; stdcall;
-    function Save(lpFilename: PChar; TD3DRMXOFFormat: TD3DRMXOFFormat;
+    function Save(lpFilename: PAnsiChar; TD3DRMXOFFormat: TD3DRMXOFFormat;
         d3drmSOContents: TD3DRMSaveOptions): HResult; stdcall;
     function Scale(sx, sy, sz: TD3DValue): HResult; stdcall;
     function Translate(tx, ty, tz: TD3DValue): HResult; stdcall;
@@ -6106,7 +6106,7 @@ type
     // IDirect3DRMMeshBuilder methods
     function Load(lpvObjSource, lpvObjID: Pointer; d3drmLOFlags: TD3DRMLoadOptions;
         d3drmLoadTextureProc: TD3DRMLoadTexture3Callback; lpvArg: Pointer): HResult; stdcall;
-    function Save(lpFilename: PChar; TD3DRMXOFFormat: TD3DRMXOFFormat;
+    function Save(lpFilename: PAnsiChar; TD3DRMXOFFormat: TD3DRMXOFFormat;
         d3drmSOContents: TD3DRMSaveOptions): HResult; stdcall;
     function Scale(sx, sy, sz: TD3DValue): HResult; stdcall;
     function Translate(tx, ty, tz: TD3DValue): HResult; stdcall;
@@ -6202,7 +6202,7 @@ type
   IDirect3DRMTexture = interface(IDirect3DRMVisual)
     ['{EB16CB09-D271-11CE-AC48-0000C03825A1}']
     // IDirect3DRMTexture methods
-    function InitFromFile(filename: PChar): HResult; stdcall;
+    function InitFromFile(filename: PAnsiChar): HResult; stdcall;
     function InitFromSurface(lpDDS: IDirectDrawSurface): HResult; stdcall;
     function InitFromResource(rs: HRSRC): HResult; stdcall;
     function Changed(bPixels, bPalette: BOOL): HResult; stdcall;
@@ -6227,7 +6227,7 @@ type
     ['{120F30C0-1629-11D0-941C-0080C80CFA7B}']
     // IDirect3DRMTexture2 methods
     function InitFromImage(const lpImage: TD3DRMImage): HResult; stdcall;
-    function InitFromResource2(hModule: HModule; strName, strType: PChar): HResult; stdcall;
+    function InitFromResource2(hModule: HModule; strName, strType: PAnsiChar): HResult; stdcall;
     function GenerateMIPMap(dwFlags: DWORD): HResult; stdcall;
   end;
 
@@ -6643,8 +6643,8 @@ type
   PDXFileLoadResource = ^TDXFileLoadResource;
   TDXFileLoadResource = record
     hModule: HModule;
-    lpName: PChar;
-    lpType: PChar;
+    lpName: PAnsiChar;
+    lpType: PAnsiChar;
   end;
 
   DXFILELOADRESOURCE = TDXFileLoadResource;
@@ -6674,7 +6674,7 @@ type
     ['{3D82AB40-62DA-11CF-AB39-0020AF71E433}']
     function CreateEnumObject(pvSource: Pointer; dwLoadOptions: TDXFileLoadOptions;
         out ppEnumObj: IDirectXFileEnumObject): HResult; stdcall;
-    function CreateSaveObject(szFileName: PChar; dwFileFormat: TDXFileFormat;
+    function CreateSaveObject(szFileName: PAnsiChar; dwFileFormat: TDXFileFormat;
         out ppSaveObj: IDirectXFileSaveObject): HResult; stdcall;
     function RegisterTemplates(pvData: Pointer; cbSize: DWORD): HResult; stdcall;
   end;
@@ -6683,13 +6683,13 @@ type
     ['{3D82AB41-62DA-11CF-AB39-0020AF71E433}']
     function GetNextDataObject(out ppDataObj: IDirectXFileData): HResult; stdcall;
     function GetDataObjectById(const rguid: TGUID; out ppDataObj: IDirectXFileData): HResult; stdcall;
-    function GetDataObjectByName(szName: PChar; out ppDataObj: IDirectXFileData): HResult; stdcall;
+    function GetDataObjectByName(szName: PAnsiChar; out ppDataObj: IDirectXFileData): HResult; stdcall;
   end;
 
   IDirectXFileSaveObject = interface(IUnknown)
     ['{3D82AB42-62DA-11CF-AB39-0020AF71E433}']
     function SaveTemplates(cTemplates: DWORD; var ppguidTemplates: PGUID): HResult; stdcall;
-    function CreateDataObject(const rguidTemplate: TGUID; szName: PChar;
+    function CreateDataObject(const rguidTemplate: TGUID; szName: PAnsiChar;
         const pguid: TGUID; cbSize: DWORD; pvData: Pointer;
         out ppDataObj: IDirectXFileData): HResult; stdcall;
     function SaveData(pDataObj: IDirectXFileData): HResult; stdcall;
@@ -6697,18 +6697,18 @@ type
 
   IDirectXFileObject = interface(IUnknown)
     ['{3D82AB43-62DA-11CF-AB39-0020AF71E433}']
-    function GetName(pstrNameBuf: PChar; var dwBufLen: DWORD): HResult; stdcall;
+    function GetName(pstrNameBuf: PAnsiChar; var dwBufLen: DWORD): HResult; stdcall;
     function GetId (var pGuidBuf: TGUID): HResult; stdcall;
   end;
 
   IDirectXFileData = interface(IDirectXFileObject)
     ['{3D82AB44-62DA-11CF-AB39-0020AF71E433}']
-    function GetData(szMember: PChar; var pcbSize: DWORD; var ppvData: Pointer): HResult; stdcall;
+    function GetData(szMember: PAnsiChar; var pcbSize: DWORD; var ppvData: Pointer): HResult; stdcall;
     function GetType(var ppguid: PGUID): HResult; stdcall;
     function GetNextObject(out ppChildObj: IDirectXFileObject): HResult; stdcall;
     function AddDataObject(pDataObj: IDirectXFileData): HResult; stdcall;
-    function AddDataReference(szRef: PChar; pguidRef: PGUID): HResult; stdcall;
-    function AddBinaryObjec (szName: PChar; pguid: PGUID; szMimeType: PChar;
+    function AddDataReference(szRef: PAnsiChar; pguidRef: PGUID): HResult; stdcall;
+    function AddBinaryObjec (szName: PAnsiChar; pguid: PGUID; szMimeType: PAnsiChar;
         pvData: Pointer; cbSize: DWORD): HResult; stdcall;
   end;
 
@@ -6720,7 +6720,7 @@ type
   IDirectXFileBinary = interface(IDirectXFileObject)
     ['{3D82AB46-62DA-11CF-AB39-0020AF71E433}']
     function GetSize(var pcbSize: DWORD): HResult; stdcall;
-    function GetMimeType(var pszMimeType: PChar): HResult; stdcall;
+    function GetMimeType(var pszMimeType: PAnsiChar): HResult; stdcall;
     function Read(pvData: Pointer; cbSize: DWORD; var pcbRead: DWORD): HResult; stdcall;
   end;
 

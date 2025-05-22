@@ -37,8 +37,8 @@ procedure DrawLine2D(X1, Y1, X2, Y2, Color : integer; Alpha : integer = 255; Lin
 procedure DrawCircle2D(X, Y, Radius, Color : integer; Alpha : byte = 255); stdcall;
 procedure DrawRectangle2D(X, Y, Width, Height, Color, Alpha : integer; Fill : boolean = false); stdcall;
 procedure DrawRectangle2D_Fill_VertexColor(X, Y, Width, Height, Color1, Color2, Color3, Color4, Alpha1, Alpha2, Alpha3, Alpha4 : integer); stdcall;
-procedure DrawText2D(Font : Cardinal; X,Y : integer; Text : string; Color : integer; Alpha : integer = 255; Scale : real = 1.0); stdcall;
-function  GetTextWidth(Font : Cardinal; Text : string; Scale : real = 1.0):integer; stdcall;
+procedure DrawText2D(Font : Cardinal; X,Y : integer; Text : AnsiString; Color : integer; Alpha : integer = 255; Scale : real = 1.0); stdcall;
+function  GetTextWidth(Font : Cardinal; Text : AnsiString; Scale : real = 1.0):integer; stdcall;
 procedure DrawEllipse2D(Center: TPoint; Radius0, Radius1, Vertices: Integer; Color: Cardinal; Alpha: byte=255); stdcall;
 procedure DrawCircle2D_Fill(Xpos, Ypos, Radius, Color : integer; Alpha : byte = 255); stdcall;
 procedure DrawCircleArc2D(Xpos, Ypos, Radius, Angle1, Angle2, Color: Integer; Alpha : byte = 255); stdcall;
@@ -48,7 +48,7 @@ procedure DrawPolygon2D(points : array of Tpoint; Color, Alpha : integer); stdca
 procedure DrawSprite2D_Tile(Texture : TGLUint; X, Y, Width, Height, FrameWidth, FrameHeight, FramesXCount, FramesYCount, FrameNumber, Angle, Alpha, Color : integer; Scale : single = 1.0; FlipX : boolean = false; FlipY : boolean = false); stdcall;
 procedure DrawEllipse2D_Fill(Center: TPoint; Radius0, Radius1: Integer; Color: Cardinal; Alpha: byte=255); stdcall;
 procedure DrawPolygon2D_VertexColor(points : array of TColorVertex2D); stdcall;
-function  GetTextHeight(Font : Cardinal; Text : string; Scale : real = 1.0):integer; stdcall;
+function  GetTextHeight(Font : Cardinal; Text : AnsiString; Scale : real = 1.0):integer; stdcall;
 
 procedure RenderTexture2D(Texture : TGluint; X, Y, FrameWidth, FrameHeight : integer; Color : integer; Alpha : byte; Angle : integer;
 Frame : byte = 1; FrameCountX : byte = 1; FrameCountY : byte = 1; ScaleX : glFloat = 1.0; ScaleY : glFloat = 1.0;
@@ -629,9 +629,9 @@ begin
   end;
 end;
 {------------------------------------------------------------------}
-procedure DrawText2D(Font : Cardinal; X,Y : integer; Text : string; Color : integer; Alpha : integer = 255; Scale : real = 1.0); stdcall;
+procedure DrawText2D(Font : Cardinal; X,Y : integer; Text : AnsiString; Color : integer; Alpha : integer = 255; Scale : real = 1.0); stdcall;
 var i : integer;
-s : string;
+s : AnsiString;
 Bukrect : TRect;
 begin
 if DGLFonts[Font].Load then
@@ -649,7 +649,7 @@ begin
 end;
 end;
 {------------------------------------------------------------------}
-function GetTextWidth(Font : Cardinal; Text : string; Scale : real = 1.0):integer; stdcall;
+function GetTextWidth(Font : Cardinal; Text : AnsiString; Scale : real = 1.0):integer; stdcall;
 var i : integer;
 r : integer;
 begin
@@ -669,7 +669,7 @@ for i:=1 to length(Text) do
 result:=round(r*Scale);
 end;
 {------------------------------------------------------------------}
-function GetTextHeight(Font : Cardinal; Text : string; Scale : real = 1.0):integer; stdcall;
+function GetTextHeight(Font : Cardinal; Text : AnsiString; Scale : real = 1.0):integer; stdcall;
 var i : integer;
 r : integer;
  function Max(v1,v2 : integer):integer;

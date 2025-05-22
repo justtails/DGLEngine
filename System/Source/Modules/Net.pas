@@ -15,14 +15,14 @@ function  NET_Init: boolean; stdcall;
 procedure NET_Free; stdcall;
 procedure NET_Clear; stdcall;
 procedure NET_ClearAPL; stdcall;
-function  NET_GetExternalIP: PChar; stdcall;
-function  NET_GetHost: PChar; stdcall;
-function  NET_GetLocalIP: PChar; stdcall;
-function  NET_HostToIP(Host: PChar): PChar; stdcall;
+function  NET_GetExternalIP: PAnsiChar; stdcall;
+function  NET_GetHost: PAnsiChar; stdcall;
+function  NET_GetLocalIP: PAnsiChar; stdcall;
+function  NET_HostToIP(Host: PAnsiChar): PAnsiChar; stdcall;
 function  NET_InitSocket(Port: WORD): integer; stdcall;
 function  NET_Write(Buf: pointer; Count: integer): boolean; stdcall;
-function  NET_Send(IP: PChar; Port: WORD; APL: boolean): integer; stdcall;
-function  NET_Recv(Buf: pointer; Count: integer; var IP: PChar; var Port: integer; var RecvBytes: integer): integer; stdcall;
+function  NET_Send(IP: PAnsiChar; Port: WORD; APL: boolean): integer; stdcall;
+function  NET_Recv(Buf: pointer; Count: integer; var IP: PAnsiChar; var Port: integer; var RecvBytes: integer): integer; stdcall;
 procedure NET_Update; stdcall;
 
 implementation
@@ -69,7 +69,7 @@ var
 var
  NET_tmpBuf : PByteArray;
 
-function StrPas(str: PChar): string;
+function StrPas(str: PAnsiChar): string;
 begin
 Result := str;
 end;
@@ -167,7 +167,7 @@ if sock = -1 then
 if ioctlsocket(sock, FIONBIO, flag) = -1 then
  Exit;
 
-setsockopt(sock, SOL_SOCKET, SO_BROADCAST, PChar(@i), SizeOf(i));
+setsockopt(sock, SOL_SOCKET, SO_BROADCAST, PAnsiChar(@i), SizeOf(i));
 
 address.sin_addr.S_addr := INADDR_ANY;
 address.sin_port        := htons(Port);
@@ -184,12 +184,12 @@ Result := sock;
 NET_Socket := sock;
 end;
 
-function NET_GetLocalIP: PChar; stdcall;
+function NET_GetLocalIP: PAnsiChar; stdcall;
 var
  Error     : DWORD;
  HostEntry : PHostEnt;
  Address   : In_Addr;
- Buffer    : array [0..63] of Char;
+ Buffer    : array [0..63] of AnsiChar;
 begin
 GetHostName(Buffer, SizeOf(Buffer));
 HostEntry := gethostbyname(Buffer);
@@ -203,14 +203,14 @@ else
  Result := '';
 end;
 
-function NET_GetExternalIP: PChar; stdcall;
+function NET_GetExternalIP: PAnsiChar; stdcall;
 type
  TaPInAddr = array [0..10] of PInAddr;
  PaPInAddr = ^TaPInAddr;
 var
  phe           : PHostEnt;
  p             : PaPInAddr;
- Buffer        : array [0..63] of Char;
+ Buffer        : array [0..63] of AnsiChar;
 begin
 Result := nil;
 GetHostName(Buffer, SizeOf(Buffer));
@@ -222,7 +222,7 @@ if p^[1] <> nil then
  Result := inet_ntoa(p^[1]^);
 end;
 
-function NET_HostToIP(Host: PChar): PChar; stdcall;
+function NET_HostToIP(Host: PAnsiChar): PAnsiChar; stdcall;
 type
  TaPInAddr = array [0..10] of PInAddr;
  PaPInAddr = ^TaPInAddr;
@@ -239,10 +239,10 @@ if p^[0] <> nil then
  Result := inet_ntoa(p^[0]^);
 end;
 
-function NET_GetHost: PChar; stdcall;
+function NET_GetHost: PAnsiChar; stdcall;
 var
   phe    : PHostEnt;
-  Buffer : array[0..63] of Char;
+  Buffer : array[0..63] of AnsiChar;
 begin
 Result := '';
 GetHostName(Buffer, SizeOf(Buffer));
@@ -269,7 +269,7 @@ if NET_BufLen + Count < MaxBufLen then
  end;
 end;
 
-function NET_Recv(Buf: pointer; Count: integer; var IP: PChar; var Port: integer; var RecvBytes: integer): integer; stdcall;
+function NET_Recv(Buf: pointer; Count: integer; var IP: PAnsiChar; var Port: integer; var RecvBytes: integer): integer; stdcall;
 var
  from    : sockaddr_in;
  i       : integer;
@@ -340,7 +340,7 @@ if Result > 0 then
 RecvBytes := Result;
 end;
 
-function NET_Send(IP: PChar; Port: WORD; APL: boolean): integer; stdcall;
+function NET_Send(IP: PAnsiChar; Port: WORD; APL: boolean): integer; stdcall;
 var
  address   : sockaddr_in;
  APLpacket : PAPLpacket;
@@ -401,7 +401,7 @@ for i := 0 to Length(NET_APLs) - 1 do
    begin
    address.sin_family      := AF_INET;
    address.sin_port        := htons(Port);
-   address.sin_addr.S_addr := inet_addr(PChar(IP));
+   address.sin_addr.S_addr := inet_addr(PAnsiChar(IP));
    FillChar(address.sin_zero, SizeOf(address.sin_zero), 0);
    inc(trys);
    Time := t;

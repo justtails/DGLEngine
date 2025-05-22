@@ -35,7 +35,7 @@ type  DPC_Header = packed record
 
 type  PDPC_Record = ^DPC_Record;
         DPC_Record = packed record
-        filename : string[60];
+        filename : array [0..59] of AnsiChar;
         size, realsize : cardinal;
         offset : cardinal;
       end;
@@ -50,8 +50,8 @@ const
 var
   GZBuffer: array[1..GZBufferSize]of byte;
 
-function  LoadFromPackage(const Filename,Name : string):TMemoryStream; stdcall;
-procedure ExtractFromPackage(const PackageName, Name, DestFilename : string); stdcall;
+function  LoadFromPackage(const Filename,Name : AnsiString):TMemoryStream; stdcall;
+procedure ExtractFromPackage(const PackageName, Name, DestFilename : AnsiString); stdcall;
 
 
 implementation
@@ -83,12 +83,12 @@ begin
   COut.Free;
 end;
 {------------------------------------------------------------------}
-procedure ExtractFromPackage(const PackageName, Name, DestFilename : string); stdcall;
+procedure ExtractFromPackage(const PackageName, Name, DestFilename : AnsiString); stdcall;
 begin
 LoadFromPackage(PackageName, Name).SaveToFile(DestFilename);
 end;
 {------------------------------------------------------------------}
-function LoadFromPackage(const Filename,Name : string):TMemoryStream; stdcall;
+function LoadFromPackage(const Filename,Name : AnsiString):TMemoryStream; stdcall;
 var
        OriginalDPC, BlockCompressed, BlockDeCompressed : TMemoryStream;
        DPCHead : DPC_Header;

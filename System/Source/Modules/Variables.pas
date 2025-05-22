@@ -59,7 +59,7 @@ Texture : GLUInt;
 end;
 
 TPlugin = record
-Name : string;
+Name : AnsiString;
 Loaded : boolean;
 Handle: THandle;
 Init : procedure (DGLE_Handle : THandle; EngWinHandle : HWND; ProcessInterval : byte); stdcall;
@@ -83,7 +83,7 @@ const
 
 var
   WND_TITLE : PAnsiChar = ENGINE_LABEL;
-  IniFileName : string = 'Settings.ini';
+  IniFileName : AnsiString = 'Settings.ini';
   PROCESS_INTERVAL : byte = 20;
   h_Wnd  : HWND;
   h_DC   : HDC;

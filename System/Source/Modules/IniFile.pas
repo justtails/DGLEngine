@@ -24,25 +24,25 @@ interface
 
 type
 
-  TIniString = Array of string; //Динамический массив для храненияя строк
+  TIniString = Array of AnsiString; //Динамический массив для храненияя строк
 
 
 TIniKeyValue=class // Класс для хранения значения key=value
-  Key:String; // Ключ
-  Value:String; // Значение
+  Key:AnsiString; // Ключ
+  Value:AnsiString; // Значение
 
-  constructor Create(DataString:String); // Конструктор класса
+  constructor Create(DataString:AnsiString); // Конструктор класса
 
 end;
 
 
 // Класс для хранения информации о секции Ini файла
 TIniSection=class
-  SectionName : string; //Название секции Внимание! Значение - слово без '[' и ']'
+  SectionName : AnsiString; //Название секции Внимание! Значение - слово без '[' и ']'
   Items       : array of TIniKeyValue; //Массив ключей и значений
   ItemNo      : Integer; //Количество значений в секции
 
-  constructor Create(SectioName:String);//Конструктор класса
+  constructor Create(SectioName:AnsiString);//Конструктор класса
 
 end;
 
@@ -63,26 +63,26 @@ TiniFile=class
 
   BadIniFile   : Boolean; // Флаг указывающий является ли файл ini-файлом
   IniStrNum    : Integer; // Количество строк Ini-файла
-  IniFileName  : String; // Имя ini-файла
+  IniFileName  : AnsiString; // Имя ini-файла
   SectionNum   : Integer; // Количество секций в Ini-файле
   IniSections  : Array of TIniSection; // Содержимое секций Ini-файла
 
-  constructor Create(FileName : String);
+  constructor Create(FileName : AnsiString);
 
   // Сохраняет содержимое класса как Ini-файл
   procedure SaveToFile;
   // Определяет, является ли файл - Ini-файлом
   function IsIniFile : boolean;
   // Проверяет, сущетвует ли секция Ini-файла
-  function IsIniSection(SectionName : String) : boolean;
+  function IsIniSection(SectionName : AnsiString) : boolean;
   // Проверяет, сущетвует ли ключ секции Ini-файла
-  function IsIniSectionKey(SectionName, KeyName : String) : boolean;
+  function IsIniSectionKey(SectionName, KeyName : AnsiString) : boolean;
   // Возвращает значение ключа в секции Ini-файла
-  function GetIniSectionKeyValue(SectionName, KeyName : String) : string;
+  function GetIniSectionKeyValue(SectionName, KeyName : AnsiString) : AnsiString;
   // Устанавливает/создает значение ключа в секции Ini-файла
-  function SetIniSectionKeyValue(SectionName, KeyName, Value : String) : string;
+  function SetIniSectionKeyValue(SectionName, KeyName, Value : AnsiString) : AnsiString;
   // Создает секцию Ini-файла
-  function CreateIniSection(SectionName : String) : boolean;
+  function CreateIniSection(SectionName : AnsiString) : boolean;
   // Возвращает количество строк Ini-файла
   function GetIniStrNum() : Integer;
   // Считывает содержимое Ini-файла в класс
@@ -101,28 +101,32 @@ uses SysUtils;
   Производит парсинг в результате которого помещает
   'ключ' и 'значение' в свойства класса key и value
 }
-constructor TIniKeyValue.Create(DataString:String);
+constructor TIniKeyValue.Create(DataString:AnsiString);
 var
-  I    : Integer;
-  ISep : Boolean; // Флаг показывающий был ли встречен знак =
+  I     : Integer;
+  FS    : TFormatSettings;
+  ISep  : Boolean; // Флаг показывающий был ли встречен знак =
 begin
-  key:='';
-  value:='';
-  ISep:=False;
-  for i:=1 to length(DataString) do
+  key:= '';
+  value:= '';
+  ISep:= False;
+
+  FS := TFormatSettings.Create;
+
+  for i:= 1 to length(DataString) do
   begin
-  if (Copy(dataString,i,1)='=') then
-    ISep:=True;
+  if (Copy(dataString, i, 1) = '=') then
+    ISep:= True;
   if (not ISep) then
-    key:=key+Copy(dataString,i,1)
+    key:= key + Copy(dataString, i, 1)
   else
-    if (Copy(dataString,I,1)<>'=') then
+    if (Copy(dataString, I, 1) <> '=') then
       { Если разделитель десятичный,
         то ставим правильный десятичный разделитель }
-      if ( (Copy(dataString,I,1)='.') or (Copy(dataString,I,1)='.') ) then
-        value:=value+DecimalSeparator
+      if Copy(dataString, I, 1) = '.' then
+        value:= value + FS.DecimalSeparator
       else
-        value:=value+Copy(dataString,I,1);
+        value:= value + Copy(dataString, I, 1);
   end;
 end;
 
@@ -133,7 +137,7 @@ end;
   В качестве значения получает строку с названием секции
   и устанавливает свойство класса SectionName
 }
-constructor TIniSection.Create(SectioName:String);
+constructor TIniSection.Create(SectioName:AnsiString);
 begin
   SectionName:=SectioName;
 end;
@@ -144,7 +148,7 @@ end;
   Конструктор класса TIniFile
   В качестве значения получает строку с именем Ini-файла
 }
-constructor TIniFile.Create(FileName:String);
+constructor TIniFile.Create(FileName:AnsiString);
 begin
 
 IniFileName:=FileName;
@@ -173,7 +177,7 @@ end;
 function TIniFile.IsIniFile:boolean;
 var
   F    : TextFile;
-  Buf  : String; // Буфер для чтения из файла
+  Buf  : AnsiString; // Буфер для чтения из файла
 begin
     AssignFile(F,IniFileName);
     Reset(F);
@@ -230,7 +234,7 @@ end;
   IsIniSection
   Проверяет, сущетвует ли секция Ini-файла
 }
-function TiniFile.IsIniSection(SectionName : String) : boolean;
+function TiniFile.IsIniSection(SectionName : AnsiString) : boolean;
 var
   I : Integer;
 begin
@@ -258,7 +262,7 @@ end;
   Проверяет, сущетвует ли ключ секции Ini-файла
 }
 
-function TiniFile.IsIniSectionKey(SectionName, KeyName : String) : boolean;
+function TiniFile.IsIniSectionKey(SectionName, KeyName : AnsiString) : boolean;
 var
 I,J : Integer; 
 begin
@@ -283,7 +287,7 @@ end;
   Возвращает значение ключа в секции Ini-файла
 }
 
-function TiniFile.GetIniSectionKeyValue(SectionName, KeyName : String) : string;
+function TiniFile.GetIniSectionKeyValue(SectionName, KeyName : AnsiString) : AnsiString;
 var
   I,J : Integer;
 begin
@@ -311,7 +315,7 @@ end;
   Устанавливает/создает значение ключа в секции Ini-файла
 }
 
-function TiniFile.SetIniSectionKeyValue(SectionName, KeyName, Value : String) : string;
+function TiniFile.SetIniSectionKeyValue(SectionName, KeyName, Value : AnsiString) : AnsiString;
 var
   I,J : Integer;
 begin
@@ -361,7 +365,7 @@ function TiniFile.GetIniStrNum() : Integer;
 var
   strnum    : Integer;
   F         : TextFile;
-  Buf       : string;
+  Buf       : AnsiString;
 begin
     if FileExists(IniFileName) then
     begin
@@ -397,7 +401,7 @@ end;
 procedure TiniFile.ReadIniToArray();
 var
   F   : TextFile;
-  Buf : String;
+  Buf : AnsiString;
   K : Integer;
 begin
     AssignFile(F,IniFileName);
@@ -438,7 +442,7 @@ end;
   Создает секцию Ini-файла
 }
 
-function TiniFile.CreateIniSection(SectionName : String) : boolean;
+function TiniFile.CreateIniSection(SectionName : AnsiString) : boolean;
 begin
   if (not IsIniSection(SectionName)) then
   begin

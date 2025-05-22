@@ -26,7 +26,7 @@ interface
 uses
   Windows,
   OpenGL,
-  Graphics,
+  Vcl.Graphics,
   JPEG,
   Classes,
   SysUtils,
@@ -40,15 +40,15 @@ function  GetTextureInfo(Texture : Cardinal) : TTextureInfo; stdcall;
 function  CreateTexture(Width, Height, Format : Word; pData : Pointer) : Cardinal; stdcall;
 function  CreateRenderTex(Width, Height : integer) : GluInt;
 procedure WriteTextureInfo(Ind : cardinal; W,H : integer; Det, Typ : byte); stdcall;
-function  LoadFontFromFile(Filename : string) : Cardinal; stdcall;
+function  LoadFontFromFile(Filename : AnsiString) : Cardinal; stdcall;
 procedure FreeFont(Ident : cardinal); stdcall;
 function  CreateShadowMap(Size : integer):GLUInt; stdcall;
 procedure TextureParametrs(Texture : TGluint; Param : byte); stdcall;
 
 function  LoadTexture(BMP : TBitmap; Quality : byte; TransparentColor : integer; ColorTolerance : byte = 0; AlphaMask : TBitmap = nil) : TGLuint; stdcall;
-function  LoadTGATexture(Filename : String; var Texture : TGLuint; Stream : TMemoryStream = nil) : Boolean; stdcall;
-function  LoadTextureFromPackage(FileName, Name : string; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
-function  LoadTextureFromFile(FileName: String; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
+function  LoadTGATexture(Filename : AnsiString; var Texture : TGLuint; Stream : TMemoryStream = nil) : Boolean; stdcall;
+function  LoadTextureFromPackage(FileName, Name : AnsiString; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
+function  LoadTextureFromFile(FileName: AnsiString; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
 procedure SetDefaultJPGTransparentColorTolerance(Tolerance : byte); stdcall;
 
 //function GetNormalisationCubeMap : cardinal; stdcall;
@@ -71,7 +71,7 @@ end;
 {------------------------------------------------------------------}
 procedure LoadLogo;
  function Birthday : boolean;
-  var s : string;
+  var s : AnsiString;
   begin
   s:=DateToStr(Now);
   if (s[1]='3') and (s[2]='0') and  (s[3]='.') and (s[4]='0') and (s[5]='5') then
@@ -103,7 +103,7 @@ DGLFonts[Ident].Load:=false;
 glDeletetextures(1,@DGLFonts[Ident].Texture);
 end;
 {------------------------------------------------------------------}
-function LoadFontFromFile(Filename : string) : Cardinal; stdcall;
+function LoadFontFromFile(Filename : AnsiString) : Cardinal; stdcall;
 var
 pBits : pByteArray;
 i : integer;
@@ -490,7 +490,7 @@ begin
  glBindTexture(GL_TEXTURE_2D, 0);
 end;
 {------------------------------------------------------------------}
-function LoadTGATexture(Filename : String; var Texture : TGLuint; Stream : TMemoryStream = nil) : Boolean; stdcall;
+function LoadTGATexture(Filename : AnsiString; var Texture : TGLuint; Stream : TMemoryStream = nil) : Boolean; stdcall;
 var
   TGAHeader : packed record
     FileType     : Byte;
@@ -893,7 +893,7 @@ end;
   FreeMem(pbits);
 end;
 {------------------------------------------------------------------}
-function LoadJPGTexture(Filename: String;Quality : byte; TransparentColor : integer; ColorTolerance : byte; FromPackage : boolean = false; Name : string = ''; OnlyAlpha : boolean = false ): GLUint;
+function LoadJPGTexture(Filename: AnsiString;Quality : byte; TransparentColor : integer; ColorTolerance : byte; FromPackage : boolean = false; Name : AnsiString = ''; OnlyAlpha : boolean = false ): GLUint;
 var
   BMP : TBitmap;
   JPG : TJPEGImage;
@@ -932,7 +932,7 @@ begin
   BMP.Free;
 end;
 {------------------------------------------------------------------}
-function LoadO3TCTexture(Filename: String; FromPackage : boolean = false; Name : string = ''): GLUint;
+function LoadO3TCTexture(Filename: AnsiString; FromPackage : boolean = false; Name : AnsiString = ''): GLUint;
 type
 TO3TC_Header = record
 	_O,_3,_T,_C : char;
@@ -1064,7 +1064,7 @@ s := TMemoryStream.Create;
 s.Free;
 end;
 {------------------------------------------------------------------}
-function LoadBMPTexture(Filename: String;Quality : byte; TransparentColor : integer; ColorTolerance : byte; FromPackage : boolean = false; Name : string = ''; OnlyAlpha : boolean = false ): GLUint;
+function LoadBMPTexture(Filename: AnsiString;Quality : byte; TransparentColor : integer; ColorTolerance : byte; FromPackage : boolean = false; Name : AnsiString = ''; OnlyAlpha : boolean = false ): GLUint;
 var
   BMP : TBitmap;
 begin
@@ -1095,7 +1095,7 @@ begin
   BMP.Free;
 end;
 {------------------------------------------------------------------}
-function LoadTextureFromPackage(FileName, Name : string; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
+function LoadTextureFromPackage(FileName, Name : AnsiString; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
 var
 S : TMemoryStream;
 begin
@@ -1113,7 +1113,7 @@ if Result<>0 then AddToLogFile(EngineLog,'Texture "'+Name+'" loaded successfully
 AddToLogFile(EngineLog,'Texture "'+Name+'" loaded with errors from package "'+Filename+'"!');
 end;
 {------------------------------------------------------------------}
-function LoadTextureFromFile(FileName: String; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
+function LoadTextureFromFile(FileName: AnsiString; Detail : byte; TransparentColor : integer) : TGLuint;  stdcall;
 begin
 if copy(Uppercase(filename), length(filename)-3, 4) = '.BMP' then Result := LoadBMPTexture(FileName,Detail,TransparentColor,0);
 if copy(Uppercase(filename), length(filename)-3, 4) = '.JPG' then Result := LoadJPGTexture(FileName,Detail,TransparentColor,DefJPGTolerance);

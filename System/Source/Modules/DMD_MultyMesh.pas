@@ -46,7 +46,7 @@ Type
     diffuse : array [0..2] of byte;
     glossiness : single;
     alpha : byte;
-    TexFileName, NormalMapFileName, SpecularMapFileName : string[128];
+    TexFileName, NormalMapFileName, SpecularMapFileName : array [0..127] of AnsiChar;
     end;
 
     PGLVector = ^TGLVector;
@@ -107,7 +107,7 @@ Type
       MaterialPresented : Boolean;
 
       public
-      procedure LoadFromFile( const FileName : String;Inverted : boolean );
+      procedure LoadFromFile( const FileName : AnsiString;Inverted : boolean );
       procedure Draw;
       constructor Create;
       destructor Destroy; override;
@@ -509,7 +509,7 @@ begin
 
 end;
 {------------------------------------------------------------------}
-procedure TGLMultyMesh.LoadFromFile( const FileName : String;Inverted : boolean );
+procedure TGLMultyMesh.LoadFromFile( const FileName : AnsiString;Inverted : boolean );
 var
 
    ResData:array of TGLVertex; // массивы для VBO
@@ -521,7 +521,7 @@ var
 
    OverallMaxVertex : single;
    f : TextFile;
-   S : String;
+   S : AnsiString;
    procedure ReadNextMesh(AParent : TGLMultyMesh);
      var
         i,j : Integer;

@@ -38,7 +38,7 @@ type TVertex3D = record X,Y,Z : single; Color, Alpha : integer; TexX, TexY : sin
 
       TSceneMesh = record
           Active      : boolean;
-          Name        : string[128];
+          Name        : AnsiString;
           Pos         : Tvertex;
           Scale       : single;
           Material    : TMaterial;
@@ -1151,7 +1151,7 @@ begin
  end else
  begin
  AddToLogFile(EngineLog,'Model file "'+ Filename +'" not found!');
- //MessageBox(0, PChar('Model file "'+ Filename +'" not found!'), PChar('Draw3D Unit'), MB_OK or MB_ICONERROR);
+ //MessageBox(0, PAnsiChar('Model file "'+ Filename +'" not found!'), PAnsiChar('Draw3D Unit'), MB_OK or MB_ICONERROR);
  result:=0;
  end;
 end;

@@ -23,18 +23,18 @@ unit EngineUtils;
 interface
 
 uses
-  SysUtils, Windows, MMSystem,Classes, IniFile, Variables, Graphics;
+  SysUtils, Windows, MMSystem, Classes, IniFile, Variables, Vcl.Graphics;
 
-procedure AddToLogFile(FileName, LogStr:String; IsDate : Boolean = false; IsTime : Boolean = false; FileRewrite : boolean = false);  stdcall;
+procedure AddToLogFile(FileName, LogStr:AnsiString; IsDate : Boolean = false; IsTime : Boolean = false; FileRewrite : boolean = false);  stdcall;
 function  GetCPU: PChar;
 function  GetMemory: DWORD;
-function  ReadValueFromIniFile(Filename, Section, Key: string):string; stdcall;
-procedure WriteValueToIniFile(Filename, Section, Key, Value : string); stdcall;
+function  ReadValueFromIniFile(Filename, Section, Key: AnsiString):AnsiString; stdcall;
+procedure WriteValueToIniFile(Filename, Section, Key, Value : AnsiString); stdcall;
 function  Input_JoyDown(JoyNum, Button: Byte): boolean; stdcall;
 function  Input_JoyDirections(JoyNum, Direction: Byte): boolean; stdcall;
-function  PrintScreen(Folder : string = '') : integer; stdcall;
+function  PrintScreen(Folder : AnsiString = '') : integer; stdcall;
 function  RectInScreen(X,Y,W,H : integer):boolean;
-function  BoolToStr(b : boolean) : string;
+function  BoolToStr(b : boolean) : AnsiString;
 function  GetTimer: integer;
 function  GetMemoryFree: DWORD;
 procedure GetWindowsVersion(var Major : integer;
@@ -84,7 +84,7 @@ QueryPerformanceCounter(int64(T));
 Result := trunc(1000 * T.QuadPart/F.QuadPart);
 end;
 {------------------------------------------------------------------}
-function BoolToStr(b : boolean) : string;
+function BoolToStr(b : boolean) : AnsiString;
 begin
  if b then result:='On' else result:='Off';
 end;
@@ -102,7 +102,7 @@ result:=
   (Y+H > 0);
 end;
 {------------------------------------------------------------------}
-function PrintScreen(Folder : string = '') : integer; stdcall;
+function PrintScreen(Folder : AnsiString = '') : integer; stdcall;
 var i : integer; B:TBitmap;
 begin
 if Folder<>'' then Folder:=Folder+'\';
@@ -119,7 +119,7 @@ AddToLogFile(EngineLog,'Screenshot saved to:'+Folder+'ScreenShot'+inttostr(i)+'.
 result:=i;
 end;
 {------------------------------------------------------------------}
-function ReadValueFromIniFile(Filename, Section, Key: string):string; stdcall;
+function ReadValueFromIniFile(Filename, Section, Key: AnsiString):AnsiString; stdcall;
 var ini : TIniFile;
 begin
 result:='';
@@ -132,7 +132,7 @@ ini.Free;
 end else AddToLogFile(EngineLog,'File "'+Filename+'" not found!');
 end;
 {------------------------------------------------------------------}
-procedure WriteValueToIniFile(Filename, Section, Key, Value : string); stdcall;
+procedure WriteValueToIniFile(Filename, Section, Key, Value : AnsiString); stdcall;
 var ini : TIniFile;
 begin
 if fileexists(Filename) then
@@ -230,10 +230,10 @@ case Direction of
 end;
 end;
 {------------------------------------------------------------------}
-procedure AddToLogFile(FileName, LogStr:String; IsDate : Boolean = false; IsTime : Boolean = false; FileRewrite : boolean = false);  stdcall;
+procedure AddToLogFile(FileName, LogStr:AnsiString; IsDate : Boolean = false; IsTime : Boolean = false; FileRewrite : boolean = false);  stdcall;
 var
   F          : TextFile;
-  Dt,Tm, DTm : String;
+  Dt,Tm, DTm : AnsiString;
 Begin
   if (not IsWriteLog) and (FileName=EngineLog) then Exit;
   if (not FileExists(FileName)) or (FileRewrite) then

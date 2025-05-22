@@ -21,7 +21,7 @@
 unit Advanced3D;
 
 interface
-uses OpenGl, Graphics, Windows, Variables, VFW, Textures, SysUtils, EngineUtils,
+uses OpenGl, Vcl.Graphics, Windows, Variables, VFW, Textures, SysUtils, EngineUtils,
 TFrustumClass, DrawFunc3D, Classes;
 
 type
@@ -55,13 +55,13 @@ type
            GetFramePointer : Pointer;
          end;
 
-function  CreateFont3D(const Fontname : string):integer; stdcall;
-procedure Write3D(FontIdent: integer; Text: string); stdcall;
+function  CreateFont3D(const Fontname : AnsiString):integer; stdcall;
+procedure Write3D(FontIdent: integer; Text: AnsiString); stdcall;
 function  StartWriteToVideoMemory : cardinal; stdcall;
 procedure EndWriteToVideoMemory; stdcall;
 procedure FreeFromVideoMemory(Ident : integer); stdcall;
 procedure DrawFromVM(Ident : integer); stdcall;
-function  CreateAVITexture(Filename : string) : integer; stdcall;
+function  CreateAVITexture(Filename : AnsiString) : integer; stdcall;
 procedure FreeAVITexture(index : integer); stdcall;
 function  SetAviTexture(index : integer) : GLUInt stdcall;
 procedure SetupProjector; stdcall;
@@ -75,7 +75,7 @@ function  Get2DPos(Vertex : TVertex) : TPoint; stdcall;
 procedure CastShadowMap(Texture : Cardinal; LightCamera : TCamera); stdcall;
 procedure SetShadowRenderAngle(Angle : cardinal); stdcall;
 function  Get3DPosFree(px,py:integer): TVertex; stdcall;
-function  LoadShader(target: Cardinal; shader: string): Cardinal; stdcall;
+function  LoadShader(target: Cardinal; shader: AnsiString): Cardinal; stdcall;
 procedure FreeShader(Ident : cardinal); stdcall;
 procedure SetShader(Ident : integer); stdcall;
 procedure GiveShaderParams(Ident, Index : cardinal; v : TVertex; w : single); stdcall;
@@ -161,9 +161,9 @@ begin
  end;
 end;
 {------------------------------------------------------------------}
-function LoadShader(target: Cardinal; shader : string): Cardinal; stdcall;
+function LoadShader(target: Cardinal; shader : AnsiString): Cardinal; stdcall;
 var
-  err: String;
+  err: AnsiString;
   i: GLint;
   s: GLuint;
 begin
@@ -179,14 +179,14 @@ begin
 
   glGenProgramsARB(1, @s);
   glBindProgramARB(target, s);
-  glProgramStringARB(target, GL_PROGRAM_FORMAT_ASCII_ARB, Length(shader), PChar(shader));
+  glProgramStringARB(target, GL_PROGRAM_FORMAT_ASCII_ARB, Length(shader), PAnsiChar(shader));
 
-  err := PChar(glGetString(GL_PROGRAM_ERROR_STRING_ARB));
+  err := PAnsiChar(glGetString(GL_PROGRAM_ERROR_STRING_ARB));
   if err <> '' then
   begin
     glGetIntegerv(GL_PROGRAM_ERROR_POSITION_ARB, @i);
-    MessageBox(0, PChar('Shader program contains errors:' + #10#10 + err +
-    #10#10 + ' (pos '+IntToStr(i)+')'), PChar('Shader Unit'), MB_OK or MB_ICONERROR);
+    MessageBoxA(0, PAnsiChar('Shader program contains errors:' + #10#10 + err +
+    #10#10 + ' (pos '+IntToStr(i)+')'), PAnsiChar('Shader Unit'), MB_OK or MB_ICONERROR);
     AddToLogFile(EngineLog,'Shader program contains errors:' + #10#10 + err +
     #10#10 + ' (pos '+IntToStr(i)+')');
   end;
@@ -606,7 +606,7 @@ begin
   end;
 end;
 {------------------------------------------------------------------}
-function CreateAVITexture(Filename : string) : integer; stdcall;
+function CreateAVITexture(Filename : AnsiString) : integer; stdcall;
 begin
 if fileexists(filename) then
 begin
@@ -616,10 +616,10 @@ SetLength(Avis,AvisCount);
 
 AVIFileInit;
 
-  if AVIFileOpen(Avis[AvisCount-1].AviFile, PChar(FileName), OF_READ or OF_SHARE_DENY_WRITE, nil) = 0 then
+  if AVIFileOpen(Avis[AvisCount-1].AviFile, PAnsiChar(FileName), OF_READ or OF_SHARE_DENY_WRITE, nil) = 0 then
   begin
     AVIFileInfo(Avis[AvisCount-1].AVIFile, @Avis[AvisCount-1].AVIInfo, SizeOf(Avis[AvisCount-1].AviInfo));
-    AVIStreamOpenFromFile(Avis[AvisCount-1].AVIStream, PChar(FileName), streamtypeVIDEO, 0, OF_READ, nil);
+    AVIStreamOpenFromFile(Avis[AvisCount-1].AVIStream, PAnsiChar(FileName), streamtypeVIDEO, 0, OF_READ, nil);
     AVIStreamInfo(Avis[AvisCount-1].AVIStream, @Avis[AvisCount-1].StreamInfo, SizeOf(Avis[AvisCount-1].StreamInfo));
     Avis[AvisCount-1].AVILength :=AVIStreamLengthTime(Avis[AvisCount-1].AVIStream);
     GetMem(Avis[AvisCount-1].FrameData, Avis[AvisCount-1].AVIInfo.dwWidth*Avis[AvisCount-1].AVIInfo.dwHeight*3);
@@ -661,7 +661,7 @@ begin
 glCallList(Ident);
 end;
 {------------------------------------------------------------------}
-procedure Write3D(FontIdent: integer; Text: string); stdcall;
+procedure Write3D(FontIdent: integer; Text: AnsiString); stdcall;
 var
   i  : integer;
   lX : single;
@@ -690,7 +690,7 @@ begin
   glPopMatrix();
 end;
 {------------------------------------------------------------------}
-function CreateFont3D(const Fontname : string):integer; stdcall;
+function CreateFont3D(const Fontname : AnsiString):integer; stdcall;
 var
   lFont : TFont;
 begin

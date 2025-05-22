@@ -24,7 +24,7 @@ interface
 uses DrawFunc2D, Variables, SysUtils;
 
 type TConEntery = record
-Name : string;
+Name : AnsiString;
 IsComandProc : boolean;
 ComandAdres : procedure;
 Value : pointer;
@@ -35,27 +35,27 @@ var
 ConsoleActive : boolean = false;
 ConsoleDraw : boolean = false;
 ConGoUp : boolean = false;
-ConsoleList : array of string;
+ConsoleList : array of AnsiString;
 ConsoleListCount : integer = 0;
 Commands : array of TConEntery;
 CommandsCount : integer = 0;
-CurentString : string = '';
-LastCom : string ='';
-LastProcvalue : string ='';
+CurentString : AnsiString = '';
+LastCom : AnsiString ='';
+LastProcvalue : AnsiString ='';
 ConY, KeyWait : integer;
 Texture : integer = 0;
 ConFont : Cardinal;
 FontScale : real;
 
-procedure AddStringToConsole(Text : string); stdcall;
+procedure AddStringToConsole(Text : AnsiString); stdcall;
 procedure ClearConsole; stdcall;
-procedure RegisterCommandProcedure(ComName : string; ProcAdress : pointer); stdcall;
+procedure RegisterCommandProcedure(ComName : AnsiString; ProcAdress : pointer); stdcall;
 procedure CreateConsole(Font : Cardinal; Size : real = 1.0; ConTexture : Cardinal = 0); stdcall;
-procedure RegisterCommandValue(ComName : string; ValueAdress : pointer; MaxValue, MinValue : integer); stdcall;
+procedure RegisterCommandValue(ComName : AnsiString; ValueAdress : pointer; MaxValue, MinValue : integer); stdcall;
 procedure ProcessConsole; stdcall;
 procedure DrawConsole; stdcall;
-function  GetLastComParam : string; stdcall;
-function  OnBack : string;
+function  GetLastComParam : AnsiString; stdcall;
+function  OnBack : AnsiString;
 
 implementation
 uses EngineCore;
@@ -88,14 +88,14 @@ RegisterCommandProcedure('cmndlist',@ComList);
 AddStringToConsole(ENGINE_LABEL);
 end;
 {------------------------------------------------------------------}
-procedure AddStringToConsole(Text : string); stdcall;
+procedure AddStringToConsole(Text : AnsiString); stdcall;
 begin
 inc(ConsoleListCount);
 SetLength(ConsoleList,ConsoleListCount);
 ConsoleList[ConsoleListCount-1]:=text;
 end;
 {------------------------------------------------------------------}
-procedure RegisterCommandProcedure(ComName : string; ProcAdress : pointer); stdcall;
+procedure RegisterCommandProcedure(ComName : AnsiString; ProcAdress : pointer); stdcall;
 begin
 inc(CommandsCount);
 SetLength(Commands,CommandsCount);
@@ -104,7 +104,7 @@ Commands[CommandsCount-1].IsComandProc:=true;
 @Commands[CommandsCount-1].ComandAdres:=ProcAdress;
 end;
 {------------------------------------------------------------------}
-procedure RegisterCommandValue(ComName : string; ValueAdress : pointer; MaxValue, MinValue : integer); stdcall;
+procedure RegisterCommandValue(ComName : AnsiString; ValueAdress : pointer; MaxValue, MinValue : integer); stdcall;
 begin
 inc(CommandsCount);
 SetLength(Commands,CommandsCount);
@@ -119,7 +119,7 @@ procedure OnTab;
 var
 i,count : integer;
 
- function CompText(text,ComName : string) : boolean;
+ function CompText(text,ComName : AnsiString) : boolean;
  var i : integer;
  begin
  result:=false;
@@ -143,14 +143,14 @@ if CompText(CurentString,Commands[i].Name) then AddStringToConsole('  >'+Command
 
 end;
 {------------------------------------------------------------------}
-function GetLastComParam : string; stdcall;
+function GetLastComParam : AnsiString; stdcall;
 begin
 result:=LastProcvalue;
 end;
 {------------------------------------------------------------------}
 procedure OnEnter;
 
- function GetCommand : string;
+ function GetCommand : AnsiString;
  var i : integer;
  begin
  result:='';
@@ -163,7 +163,7 @@ procedure OnEnter;
 
  end;
 
- function GetCIndex(Name : string):integer;
+ function GetCIndex(Name : AnsiString):integer;
  var  i : integer;
  begin
  result:=-1;
@@ -175,7 +175,7 @@ procedure OnEnter;
    end;
  end;
 
- function GetValue : string;
+ function GetValue : AnsiString;
  var i : integer; onewas : boolean;
  begin
  result:='';
@@ -230,7 +230,7 @@ LastCom:=CurentString;
 CurentString:='';
 end;
 {------------------------------------------------------------------}
-function OnBack : string;
+function OnBack : AnsiString;
 var i : integer;
 begin
 result:='';

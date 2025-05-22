@@ -5538,7 +5538,7 @@ var
   ExtensionsRead     : Boolean;
   ImplementationRead : Boolean;
 
-function InitOpenGL(LibName: String = 'OpenGL32.dll';GLULibName : String = 'GLU32.dll'): Boolean;
+function InitOpenGL(LibName: AnsiString = 'OpenGL32.dll';GLULibName : AnsiString = 'GLU32.dll'): Boolean;
 procedure ClearExtensions;
 procedure ReadExtensions;
 procedure ReadImplementationProperties;
@@ -5563,7 +5563,7 @@ if result <> NIL then
 Result := GetProcAddress(LibHandle, ProcName);
 end;
 
-function InitOpenGL(LibName: String; GLULibName : String): Boolean;
+function InitOpenGL(LibName: AnsiString; GLULibName : AnsiString): Boolean;
 begin
 Result       := False;
 if LibHandle<>0 then FreeLibrary(LibHandle);
@@ -8417,7 +8417,8 @@ begin
     // ==== OpenGL 1.5 =========================================================
     // GL_ARB_Shader_Objects ===================================================
     glCreateShaderObjectARB      := wglGetProcAddress('glCreateShaderObjectARB');
-    glShaderSourceARB            := wglGetProcAddress('glShaderSourceARB');
+
+    glShaderSourceARB            := wglGetProcAddress('glShaderSourceARB');
     glCompileShaderARB           := wglGetProcAddress('glCompileShaderARB');
     glDeleteObjectARB            := wglGetProcAddress('glDeleteObjectARB');
     glGetHandleARB               := wglGetProcAddress('glGetHandleARB');
@@ -8456,11 +8457,16 @@ begin
     glUniformMatrix3fvARB        := wglGetProcAddress('glUniformMatrix3fvARB');
     glUniformMatrix4fvARB        := wglGetProcAddress('glUniformMatrix4fvARB');
     // GL_ARB_vertex_shader ====================================================
-    glGetActiveAttribARB         := wglGetProcAddress('glGetActiveAttribARB');
-    glGetAttribLocationARB       := wglGetProcAddress('glGetAttribLocationARB');
-    glBindAttribLocationARB      := wglGetProcAddress('glBindAttribLocationARB');
-    glGetVertexAttribPointervARB := wglGetProcAddress('glGetVertexAttribPointervARB');
-    // GL_ARB_occlusion_query ==================================================
+
+    glGetActiveAttribARB         := wglGetProcAddress('glGetActiveAttribARB');
+
+    glGetAttribLocationARB       := wglGetProcAddress('glGetAttribLocationARB');
+
+    glBindAttribLocationARB      := wglGetProcAddress('glBindAttribLocationARB');
+
+    glGetVertexAttribPointervARB := wglGetProcAddress('glGetVertexAttribPointervARB');
+
+    // GL_ARB_occlusion_query ==================================================
     glGenQueriesARB              := wglGetProcAddress('glGenQueriesARB');
     glDeleteQueriesARB           := wglGetProcAddress('glDeleteQueriesARB');
     glIsQueryARB                 := wglGetProcAddress('glIsQueryARB');
@@ -8490,11 +8496,11 @@ end;
 // =============================================================================
 procedure ReadImplementationProperties;
 var
- Buffer                     : string;
+ Buffer                     : AnsiString;
  MajorVersion, MinorVersion : Integer;
 
-  procedure TrimAndSplitVersionString(Buffer: String; var Max, Min: Integer);
-  // Peels out the X.Y form from the given Buffer which must contain a version string like "text Minor.Major.Build text"
+  procedure TrimAndSplitVersionString(Buffer: AnsiString; var Max, Min: Integer);
+  // Peels out the X.Y form from the given Buffer which must contain a version AnsiString like "text Minor.Major.Build text"
   // at least however "Major.Minor".
   var
     Separator: Integer;
@@ -8506,18 +8512,18 @@ var
       if (Separator > 1) and (Separator < Length(Buffer)) and (Buffer[Separator - 1] in ['0'..'9']) and
         (Buffer[Separator + 1] in ['0'..'9']) then
       begin
-        // OK, it's a valid version string. Now remove unnecessary parts.
+        // OK, it's a valid version AnsiString. Now remove unnecessary parts.
         Dec(Separator);
         // Find last non-numeric character before version number.
         while (Separator > 0) and (Buffer[Separator] in ['0'..'9']) do
           Dec(Separator);
-        // Delete leading characters which do not belong to the version string.
+        // Delete leading characters which do not belong to the version AnsiString.
         Delete(Buffer, 1, Separator);
         Separator := Pos('.', Buffer) + 1;
         // Find first non-numeric character after version number
         while (Separator <= Length(Buffer)) and (Buffer[Separator] in ['0'..'9']) do
           Inc(Separator);
-        // delete trailing characters not belonging to the version string
+        // delete trailing characters not belonging to the version AnsiString
         Delete(Buffer, Separator, 255);
         // Now translate the numbers.
         Separator := Pos('.', Buffer); // This is necessary because the buffer length might have changed.
@@ -8532,12 +8538,12 @@ var
     end;
   end;
 
-  // Checks if the given Extension string is in Buffer.
-  function CheckExtension(const Extension: string): Boolean;
+  // Checks if the given Extension AnsiString is in Buffer.
+  function CheckExtension(const Extension: AnsiString): Boolean;
   var
     ExtPos: Integer;
   begin
-    // First find the position of the extension string as substring in Buffer.
+    // First find the position of the extension AnsiString as substring in Buffer.
     ExtPos := Pos(Extension, Buffer);
     Result := ExtPos > 0;
     // Now check that it isn't only a substring of another extension.

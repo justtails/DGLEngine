@@ -50,10 +50,10 @@ function  GetScreenResY : integer; stdcall;
 procedure EndKeyboardTextInput; stdcall;
 procedure EnableStencilBuffer; stdcall;
 procedure AutoPause(Enable : boolean); stdcall;
-function  GetKeyboardText : string; stdcall;
+function  GetKeyboardText : AnsiString; stdcall;
 function  GetFPS : integer; stdcall;
 procedure ApplicationName(Name : PAnsiChar); stdcall;
-procedure SetEngineInifileName(Name : string); stdcall;
+procedure SetEngineInifileName(Name : AnsiString); stdcall;
 procedure SetEngineInitParametrs(ResX,ResY,ColorDepth, DisplayFrequency : integer; Fullscreen, VSync, UseEngineSettingsIni : boolean; WriteLog : boolean = true); stdcall;
 procedure SetGameProcessInterval(Interval : byte); stdcall;
 function  GetMousePos : Tpoint; stdcall;
@@ -65,12 +65,12 @@ procedure PleaseNoLogo; stdcall;
 procedure RegProcedure(ID: WORD; ProcAdress: pointer); stdcall;
 procedure UpdateRenderRect(NewWidth,NewHeight : integer); stdcall;
 procedure EngineMainDraw; stdcall;
-procedure FreePlugin(Name : string); stdcall;
+procedure FreePlugin(Name : AnsiString); stdcall;
 procedure EngineProcessMessages(var Msg: tagMSG); stdcall;
 procedure QuitEngine; stdcall;
-function  GetPluginHandle(Name : string) : THandle;stdcall;
-function  IsPluginLoaded(Name : string) : boolean; stdcall;
-function  LoadPlugin(Filename : string; DGLE_DLL_Handle : THandle) : string; stdcall;
+function  GetPluginHandle(Name : AnsiString) : THandle;stdcall;
+function  IsPluginLoaded(Name : AnsiString) : boolean; stdcall;
+function  LoadPlugin(Filename : AnsiString; DGLE_DLL_Handle : THandle) : AnsiString; stdcall;
 procedure StartEngine; stdcall;
 procedure StartEngine_DrawToPanel(PanelHandle : HWND); stdcall;
 function  IsKeyPressed(Key : integer) : boolean; stdcall;
@@ -104,7 +104,7 @@ FpsSumm : LongInt = 0;
 CiclesCount : integer = 0;
 
 TextInput : boolean = false;
-InputText : string;
+InputText : AnsiString;
 
 keys : Array[0..255] of Boolean;
 WheelDelta : integer = 0;
@@ -285,10 +285,10 @@ end;
 procedure ApplicationName(Name : PAnsiChar); stdcall;
 begin
 WND_TITLE:=Name;
-SetWindowText(h_Wnd, PChar(WND_TITLE));
+SetWindowText(h_Wnd, PAnsiChar(WND_TITLE));
 end;
 {------------------------------------------------------------------}
-procedure SetEngineInifileName(Name : string); stdcall;
+procedure SetEngineInifileName(Name : AnsiString); stdcall;
 begin
 IniFileName:=Name;
 end;
@@ -354,7 +354,7 @@ begin
  TextInput:=false;
 end;
 {------------------------------------------------------------------}
-function GetKeyboardText : string; stdcall;
+function GetKeyboardText : AnsiString; stdcall;
 begin
 result:=InputText;
 end;
@@ -475,7 +475,7 @@ begin
       SwapBuffers(h_DC);
 end;
 {------------------------------------------------------------------}
-procedure FreePlugin(Name : string); stdcall;
+procedure FreePlugin(Name : AnsiString); stdcall;
 var i : integer;
 begin
  for i:=0 to length(Plugins)-1 do
@@ -566,7 +566,7 @@ begin
 end;
 {------------------------------------------------------------------}
 function WndProc(hWnd: HWND; Msg: UINT;  wParam: WPARAM;  lParam: LPARAM): LRESULT; stdcall;
-var i : integer; s:string;
+var i : integer; s:AnsiString;
 PlMsg : tagMSG;
 begin
 
@@ -587,14 +587,14 @@ if length(Plugins)<>0 then
       if _AllowAutoPause then
       begin
       paused:=true;
-      SetWindowText(h_Wnd, PChar(WND_TITLE+' [Paused]'));
+      SetWindowText(h_Wnd, PAnsiChar(WND_TITLE+' [Paused]'));
       end;
       result:=0;
      end;
     WM_SETFOCUS:
      begin
       paused:=false;
-      SetWindowText(h_Wnd, PChar(WND_TITLE));
+      SetWindowText(h_Wnd, PAnsiChar(WND_TITLE));
       result:=0;
      end;
     WM_CLOSE:
@@ -746,7 +746,7 @@ StartQuitingEngine := True;
 if DrawToPanel then glKillWnd(InitFullScreen);
 end;
 {------------------------------------------------------------------}
-function GetPluginHandle(Name : string) : THandle;stdcall;
+function GetPluginHandle(Name : AnsiString) : THandle;stdcall;
 var i : integer;
 begin
 result:=0;
@@ -759,7 +759,7 @@ if length(Plugins)<>0 then
   end;
 end;
 {------------------------------------------------------------------}
-function IsPluginLoaded(Name : string) : boolean; stdcall;
+function IsPluginLoaded(Name : AnsiString) : boolean; stdcall;
 var i : integer;
 begin
 result:=false;
@@ -772,9 +772,9 @@ if length(Plugins)<>0 then
   end;
 end;
 {------------------------------------------------------------------}
-function LoadPlugin(Filename : string; DGLE_DLL_Handle : THandle) : string; stdcall;
+function LoadPlugin(Filename : AnsiString; DGLE_DLL_Handle : THandle) : AnsiString; stdcall;
 var current : integer;
- function ExtractName(s : string):string;
+ function ExtractName(s : AnsiString):AnsiString;
  var i : integer;
  slash : boolean;
  begin
@@ -803,12 +803,12 @@ setlength(Plugins,length(Plugins)+1);
 current:=length(Plugins)-1;
 
 Plugins[current].Name:= ExtractName(Filename);
-Plugins[current].Handle := LoadLibrary(PChar(Filename));
+Plugins[current].Handle := LoadLibraryA(PAnsiChar(Filename));
 
 if Plugins[current].Handle=0 then
 begin
 setlength(Plugins,length(Plugins)-1);
-MessageBox(0, PChar('Error loading plugin "'+ ExtractName(Filename) +'"!'), PChar('Plugin Unit'), MB_OK);
+MessageBoxA(0, PAnsiChar('Error loading plugin "'+ ExtractName(Filename) +'"!'), PAnsiChar('Plugin Unit'), MB_OK);
 AddToLogFile(EngineLog,'Error loading plugin "'+ ExtractName(Filename) +'"!');
 end;
 
@@ -829,7 +829,7 @@ if @Plugins[current].Init<>nil then Plugins[current].Init(DGLE_DLL_Handle,h_Wnd,
 
 end else
 begin
-MessageBox(0, PChar('File "'+ Filename +'" not found!'), PChar('Plugin Unit'), MB_OK);
+MessageBoxA(0, PAnsiChar('File "'+ Filename +'" not found!'), PAnsiChar('Plugin Unit'), MB_OK);
 AddToLogFile(EngineLog,'File "'+ Filename +'" not found!');
 end;
 end;
@@ -1010,7 +1010,7 @@ begin
   WinY:=0;
   end;
 
-  h_Wnd := CreateWindowEx(dwExStyle,'DGLEngine',WND_TITLE,dwStyle,WinX, WinY,real_win_w, real_win_h,0,0,h_Instance,nil);
+  h_Wnd := CreateWindowExA(dwExStyle,'DGLEngine',WND_TITLE,dwStyle,WinX, WinY,real_win_w, real_win_h,0,0,h_Instance,nil);
 
   if h_Wnd = 0 then
   begin
