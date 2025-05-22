@@ -1,0 +1,3 @@
+Открываешь хедер, жмешь Ctrl-R и указываешь заменять PChar на PAnsiChar, во всем тексте. Потом то же самое для string->AnsiString. Все.
+Подробнее смотри по ссылке
+http://forum.mirgames.ru/index.php?showtopic=6271

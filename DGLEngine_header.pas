@@ -12,11 +12,11 @@
 {                                                                              }
 {  Date: 25.04.2006                                                            }
 {                                                                              }
-{ Лицензия: Вы можете свободно использовать этот движок, как в коммерческих,   }
-{ так и не коммерческих целях, при соблюдение одного условия, в авторах игры   }
-{ должно быть указано, что игра использует DGLEngine и приведен адрес сайта,   }
-{ либо отображаться логотип движка при старте программы.                       }
-{ В противном случае это будет считаться нарушением авторских прав.            }
+{ Р›РёС†РµРЅР·РёСЏ: Р’С‹ РјРѕР¶РµС‚Рµ СЃРІРѕР±РѕРґРЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЌС‚РѕС‚ РґРІРёР¶РѕРє, РєР°Рє РІ РєРѕРјРјРµСЂС‡РµСЃРєРёС…,   }
+{ С‚Р°Рє Рё РЅРµ РєРѕРјРјРµСЂС‡РµСЃРєРёС… С†РµР»СЏС…, РїСЂРё СЃРѕР±Р»СЋРґРµРЅРёРµ РѕРґРЅРѕРіРѕ СѓСЃР»РѕРІРёСЏ, РІ Р°РІС‚РѕСЂР°С… РёРіСЂС‹   }
+{ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ СѓРєР°Р·Р°РЅРѕ, С‡С‚Рѕ РёРіСЂР° РёСЃРїРѕР»СЊР·СѓРµС‚ DGLEngine Рё РїСЂРёРІРµРґРµРЅ Р°РґСЂРµСЃ СЃР°Р№С‚Р°,   }
+{ Р»РёР±Рѕ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ Р»РѕРіРѕС‚РёРї РґРІРёР¶РєР° РїСЂРё СЃС‚Р°СЂС‚Рµ РїСЂРѕРіСЂР°РјРјС‹.                       }
+{ Р’ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ СЌС‚Рѕ Р±СѓРґРµС‚ СЃС‡РёС‚Р°С‚СЊСЃСЏ РЅР°СЂСѓС€РµРЅРёРµРј Р°РІС‚РѕСЂСЃРєРёС… РїСЂР°РІ.            }
 {                                                                              }
 {------------------------------------------------------------------------------}
 unit DGLEngine_header;
@@ -30,9 +30,9 @@ procedure FreeDGLEngineDLL(EXE_FileName : string = '');
 {***Engine***}
 {Module version: 1.0}
 
-{***Процедуры работающие только до старта движка***}
+{***РџСЂРѕС†РµРґСѓСЂС‹ СЂР°Р±РѕС‚Р°СЋС‰РёРµ С‚РѕР»СЊРєРѕ РґРѕ СЃС‚Р°СЂС‚Р° РґРІРёР¶РєР°***}
 const
-//Параметры ID
+//РџР°СЂР°РјРµС‚СЂС‹ ID
 PROC_DRAW    = $000000;
 PROC_PROCESS = $000001;
 PROC_INIT    = $000002;
@@ -89,12 +89,12 @@ IsVShadersSupported : function : boolean; stdcall;
 IsPShadersSupported : function : boolean; stdcall;
 
 const
-//Параметры Quality
+//РџР°СЂР°РјРµС‚СЂС‹ Quality
 TEXDETAIL_BEST   = $000000;
 TEXDETAIL_MEDIUM = $000001;
 TEXDETAIL_POOR   = $000002;
 
-//Параметры TransparentColor
+//РџР°СЂР°РјРµС‚СЂС‹ TransparentColor
 TRANSCOLOR_NONE  = -$000001;
 TRANSCOLOR_BLACK =  $000000;
 TRANSCOLOR_GRAY  =  $808080;
@@ -116,14 +116,14 @@ TextureCompression : procedure (Enable : boolean); stdcall;
 TextureMipMapping : procedure (Enable : boolean); stdcall;
 TextureFiltering : procedure (Enable : boolean); stdcall;
 const
-//Параметры Param
+//РџР°СЂР°РјРµС‚СЂС‹ Param
 TEXTURE_REPEAT = $000000;
 TEXTURE_CLAMP  = $000001;
 var
 TextureParametrs : procedure (Texture : cardinal; Param : byte); stdcall;
 
 const
-//Возвращаемые параметры TextureType
+//Р’РѕР·РІСЂР°С‰Р°РµРјС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ TextureType
 IS_TGA       = $000001;
 IS_RGBA      = $000002;
 IS_RGB       = $000003;
@@ -131,7 +131,7 @@ IS_ALPHA     = $000006;
 IS_GEN       = $000004;
 IS_SHADOWMAP = $000005;
 IS_UNLOAD    = $000000;
-//Возвращаемый параметр Index
+//Р’РѕР·РІСЂР°С‰Р°РµРјС‹Р№ РїР°СЂР°РјРµС‚СЂ Index
 INDEX_UNLOAD = $000000;
 type TTextureInfo = record
 Index : Cardinal;
@@ -249,7 +249,7 @@ StartRenderToTexture : procedure (Texture : Cardinal); stdcall;
 EndRenderToTexture : procedure; stdcall;
 
 const
-//Параметры ID
+//РџР°СЂР°РјРµС‚СЂС‹ ID
   LIGHTS_ALL = -$000001;
   LIGHT0     =  $000000;
   LIGHT1     =  $000001;
@@ -261,7 +261,7 @@ const
   LIGHT7     =  $000007;
   LIGHT8     =  $000008;
   LIGHT9     =  $000009;
-//Параметр Radius
+//РџР°СЂР°РјРµС‚СЂ Radius
   INFINITY   = -$000001;
 var
 SetLight : procedure (ID : integer = LIGHT0; X : single = 1;Y : single = 0;Z : single = 1; light_Color : integer =$FFFFFF; Radius : single = INFINITY; Visualize : boolean = false; VisualScale : single = 0.1); stdcall;
@@ -271,7 +271,7 @@ CreateFont3D : function (const Fontname : string):integer; stdcall;
 Write3D : procedure (FontIdent: integer; Text: string); stdcall;
 
 const
-//Параметры ScaleType
+//РџР°СЂР°РјРµС‚СЂС‹ ScaleType
 MDL_NO_SCALE               = $000000;
 MDL_SCALE_EVERY_FRAME      = $000001;
 MDL_SCALE_GL_ONE           = $000002;
