@@ -1,71 +1,194 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ProjectGuid>{9488e64d-b1de-42f0-98fd-67599f79f66e}</ProjectGuid>
-    <MainSource>DGLEngine.dpr</MainSource>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-    <DCC_DependencyCheckOutputName>..\DGLEngine.dll</DCC_DependencyCheckOutputName>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Version>7.0</Version>
-    <DCC_DebugInformation>False</DCC_DebugInformation>
-    <DCC_IOChecking>False</DCC_IOChecking>
-    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
-    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
-    <DCC_ExeOutput>..\</DCC_ExeOutput>
-    <DCC_DcuOutput>..\DCU</DCC_DcuOutput>
-    <DCC_ObjOutput>..\DCU</DCC_ObjOutput>
-    <DCC_HppOutput>..\DCU</DCC_HppOutput>
-    <DCC_BplOutput>..\DCU</DCC_BplOutput>
-    <DCC_Define>RELEASE</DCC_Define>
-    <DCC_COMPARISON_FALSE>False</DCC_COMPARISON_FALSE>
-    <DCC_COMPARISON_TRUE>False</DCC_COMPARISON_TRUE>
-    <DCC_COMPARING_SIGNED_UNSIGNED>False</DCC_COMPARING_SIGNED_UNSIGNED>
-    <DCC_COMBINING_SIGNED_UNSIGNED>False</DCC_COMBINING_SIGNED_UNSIGNED>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Version>7.0</Version>
-    <DCC_IOChecking>False</DCC_IOChecking>
-    <DCC_ExeOutput>..\</DCC_ExeOutput>
-    <DCC_DcuOutput>..\DCU</DCC_DcuOutput>
-    <DCC_ObjOutput>..\DCU</DCC_ObjOutput>
-    <DCC_HppOutput>..\DCU</DCC_HppOutput>
-    <DCC_BplOutput>..\DCU</DCC_BplOutput>
-    <DCC_Define>DEBUG</DCC_Define>
-    <DCC_COMPARISON_FALSE>False</DCC_COMPARISON_FALSE>
-    <DCC_COMPARISON_TRUE>False</DCC_COMPARISON_TRUE>
-    <DCC_COMPARING_SIGNED_UNSIGNED>False</DCC_COMPARING_SIGNED_UNSIGNED>
-    <DCC_COMBINING_SIGNED_UNSIGNED>False</DCC_COMBINING_SIGNED_UNSIGNED>
-  </PropertyGroup>
-  <ProjectExtensions>
-    <Borland.Personality>Delphi.Personality</Borland.Personality>
-    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
-    <BorlandProject>
-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="HostApplication">F:\Мои документы\Мои программы\DRON's GL Engine\Samples\ModelLoading and Animating\Launcher.exe</Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">False</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">True</VersionInfo><VersionInfo Name="Locale">2057</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">DRON</VersionInfoKeys><VersionInfoKeys Name="FileDescription">http://dronprogs.mirgames.ru</VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName">DGLE</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">DGLEngine.dll</VersionInfoKeys><VersionInfoKeys Name="ProductName">DRON's OpenGL Engine</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">DGLEngine.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
-  </ProjectExtensions>
-  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
-  <ItemGroup>
-    <DelphiCompile Include="DGLEngine.dpr">
-      <MainSource>MainSource</MainSource>
-    </DelphiCompile>
-    <DCCReference Include="Modules\Advanced3D.pas" />
-    <DCCReference Include="Modules\Console.pas" />
-    <DCCReference Include="Modules\DMD_MultyMesh.pas" />
-    <DCCReference Include="Modules\DPC_Packages.pas" />
-    <DCCReference Include="Modules\DrawFunc2D.pas" />
-    <DCCReference Include="Modules\DrawFunc3D.pas" />
-    <DCCReference Include="Modules\EngineCore.pas" />
-    <DCCReference Include="Modules\EngineUtils.pas" />
-    <DCCReference Include="Modules\Headers\DirectX.pas" />
-    <DCCReference Include="Modules\Headers\OpenGL.pas" />
-    <DCCReference Include="Modules\Headers\Vfw.pas" />
-    <DCCReference Include="Modules\IniFile.pas" />
-    <DCCReference Include="Modules\Net.pas" />
-    <DCCReference Include="Modules\Sound.pas" />
-    <DCCReference Include="Modules\Textures.pas" />
-    <DCCReference Include="Modules\TFrustumClass.pas" />
-    <DCCReference Include="Modules\Variables.pas" />
-  </ItemGroup>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9488e64d-b1de-42f0-98fd-67599f79f66e}</ProjectGuid>
+        <MainSource>DGLEngine.dpr</MainSource>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+        <DCC_DependencyCheckOutputName>..\DGLEngine.dll</DCC_DependencyCheckOutputName>
+        <FrameworkType>None</FrameworkType>
+        <ProjectVersion>20.1</ProjectVersion>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <ProjectName Condition="'$(ProjectName)'==''">DGLEngine</ProjectName>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Library</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <GenDll>true</GenDll>
+        <SanitizedProjectName>DGLEngine</SanitizedProjectName>
+        <VerInfo_DLL>true</VerInfo_DLL>
+        <VerInfo_Locale>2057</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=DRON;FileDescription=http://dronprogs.mirgames.ru;FileVersion=1.0.0.0;InternalName=DGLE;LegalCopyright=;LegalTrademarks=;OriginalFilename=DGLEngine.dll;ProductName=DRON&apos;s OpenGL Engine;ProductVersion=1.0.0</VerInfo_Keys>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;Vcl.Imaging;$(DCC_Namespace)</DCC_Namespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_HostApplication>F:\Мои документы\Мои программы\DRON&apos;s GL Engine\Samples\ModelLoading and Animating\Launcher.exe</Debugger_HostApplication>
+        <Icon_MainIcon>DGLEngine_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Icon_MainIcon>DGLEngine_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Version>7.0</Version>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_IOChecking>False</DCC_IOChecking>
+        <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_ExeOutput>..\</DCC_ExeOutput>
+        <DCC_DcuOutput>..\DCU</DCC_DcuOutput>
+        <DCC_ObjOutput>..\DCU</DCC_ObjOutput>
+        <DCC_HppOutput>..\DCU</DCC_HppOutput>
+        <DCC_BplOutput>..\DCU</DCC_BplOutput>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_COMPARISON_FALSE>False</DCC_COMPARISON_FALSE>
+        <DCC_COMPARISON_TRUE>False</DCC_COMPARISON_TRUE>
+        <DCC_COMPARING_SIGNED_UNSIGNED>False</DCC_COMPARING_SIGNED_UNSIGNED>
+        <DCC_COMBINING_SIGNED_UNSIGNED>False</DCC_COMBINING_SIGNED_UNSIGNED>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Version>7.0</Version>
+        <DCC_IOChecking>False</DCC_IOChecking>
+        <DCC_ExeOutput>..\</DCC_ExeOutput>
+        <DCC_DcuOutput>..\DCU</DCC_DcuOutput>
+        <DCC_ObjOutput>..\DCU</DCC_ObjOutput>
+        <DCC_HppOutput>..\DCU</DCC_HppOutput>
+        <DCC_BplOutput>..\DCU</DCC_BplOutput>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_COMPARISON_FALSE>False</DCC_COMPARISON_FALSE>
+        <DCC_COMPARISON_TRUE>False</DCC_COMPARISON_TRUE>
+        <DCC_COMPARING_SIGNED_UNSIGNED>False</DCC_COMPARING_SIGNED_UNSIGNED>
+        <DCC_COMBINING_SIGNED_UNSIGNED>False</DCC_COMBINING_SIGNED_UNSIGNED>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
+        <Manifest_File>(None)</Manifest_File>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
+        <DCC_MapFile>3</DCC_MapFile>
+        <DCC_DebugDCUs>true</DCC_DebugDCUs>
+    </PropertyGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Parameters>
+                    <Parameters Name="HostApplication">F:\Мои документы\Мои программы\DRON&apos;s GL Engine\Samples\ModelLoading and Animating\Launcher.exe</Parameters>
+                    <Parameters Name="UseLauncher">False</Parameters>
+                    <Parameters Name="LoadAllSymbols">True</Parameters>
+                    <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                </Parameters>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">True</VersionInfo>
+                    <VersionInfo Name="Locale">2057</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName">DRON</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileDescription">http://dronprogs.mirgames.ru</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName">DGLE</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename">DGLEngine.dll</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductName">DRON&apos;s OpenGL Engine</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0</VersionInfoKeys>
+                </VersionInfoKeys>
+                <Source>
+                    <Source Name="MainSource">DGLEngine.dpr</Source>
+                </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="Modules\EngineUtils.pas"/>
+        <DCCReference Include="Modules\Headers\OpenGL.pas"/>
+        <DCCReference Include="Modules\IniFile.pas"/>
+        <DCCReference Include="Modules\DrawFunc2D.pas"/>
+        <DCCReference Include="Modules\Textures.pas"/>
+        <DCCReference Include="Modules\Variables.pas"/>
+        <DCCReference Include="Modules\DPC_Packages.pas"/>
+        <DCCReference Include="Modules\Console.pas"/>
+        <DCCReference Include="Modules\DrawFunc3D.pas"/>
+        <DCCReference Include="Modules\Sound.pas"/>
+        <DCCReference Include="Modules\Net.pas"/>
+        <DCCReference Include="Modules\Headers\DirectX.pas"/>
+        <DCCReference Include="Modules\Advanced3D.pas"/>
+        <DCCReference Include="Modules\DMD_MultyMesh.pas"/>
+        <DCCReference Include="Modules\Headers\Vfw.pas"/>
+        <DCCReference Include="Modules\TFrustumClass.pas"/>
+        <DCCReference Include="Modules\EngineCore.pas"/>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
 </Project>

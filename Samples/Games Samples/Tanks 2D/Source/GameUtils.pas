@@ -5,8 +5,8 @@ interface
 type TRect=record X,Y,Width,Height : integer; end;
      TCircle=record X,Y,Radius : integer; end;
 
-function IntToStr(Num : Integer) : String;
-function StrToInt(const S: string): Integer;
+function IntToStr(Num : Integer) : AnsiString;
+function StrToInt(const S: AnsiString): Integer;
 function PointInRect(X1,Y1,X,Y,Width,Height : integer):boolean;
 function Cos256(i: Integer): Double;
 function Sin256(i: Integer): Double;
@@ -47,12 +47,12 @@ begin
 result:=(X1>X) and (X1<X+width) and (Y1>Y) and (Y1<Y+Height);
 end;
 //-----------------------------------------------------------------------------------------
-function IntToStr(Num : Integer) : String;
+function IntToStr(Num : Integer) : AnsiString;
 begin
   Str(Num, result);
 end;
 //-----------------------------------------------------------------------------------------
-function StrToInt(const S: string): Integer;
+function StrToInt(const S: AnsiString): Integer;
 var
   E: Integer;
 begin

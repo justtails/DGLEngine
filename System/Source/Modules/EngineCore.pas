@@ -1216,7 +1216,7 @@ end;
 end;
 {------------------------------------------------------------------}
 function WinMain(hInstance : HINST; hPrevInstance : HINST;
-                 lpCmdLine : PChar; nCmdShow : Integer) : Integer;
+                 lpCmdLine : PAnsiChar; nCmdShow : Integer) : Integer;
 var
   msg : TMsg;
   i    : integer;
@@ -1275,7 +1275,7 @@ end;
 {------------------------------------------------------------------}
 procedure StartEngine; stdcall;
 begin
-WinMain( hInstance, hPrevInst, CmdLine, CmdShow );
+WinMain( hInstance, hPrevInst, PAnsiChar(CmdLine), CmdShow );
 end;
 {------------------------------------------------------------------}
 procedure StartEngine_DrawToPanel(PanelHandle : HWND); stdcall;

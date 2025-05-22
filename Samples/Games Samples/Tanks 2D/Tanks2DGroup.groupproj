@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{76EE274A-A468-4794-B87F-49A78B77FA2E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Source\Launcher.dproj">
+            <Dependencies>..\..\..\System\Source\DGLEngine.dproj</Dependencies>
+        </Projects>
+        <Projects Include="..\..\..\System\Source\DGLEngine.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Launcher" DependsOnTargets="DGLEngine">
+        <MSBuild Projects="Source\Launcher.dproj"/>
+    </Target>
+    <Target Name="Launcher:Clean" DependsOnTargets="DGLEngine:Clean">
+        <MSBuild Projects="Source\Launcher.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Launcher:Make" DependsOnTargets="DGLEngine:Make">
+        <MSBuild Projects="Source\Launcher.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DGLEngine">
+        <MSBuild Projects="..\..\..\System\Source\DGLEngine.dproj"/>
+    </Target>
+    <Target Name="DGLEngine:Clean">
+        <MSBuild Projects="..\..\..\System\Source\DGLEngine.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DGLEngine:Make">
+        <MSBuild Projects="..\..\..\System\Source\DGLEngine.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Launcher;DGLEngine"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Launcher:Clean;DGLEngine:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Launcher:Make;DGLEngine:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -46,7 +46,7 @@ Begin2D;
   gsGame:DrawSceneGame;
  end;
 
-if DrawFPS=1 then DrawText2D(Font,GetScreenResX-GetTextWidth(Font,'FPS:'+inttostr(GetFPS),0.7)-10,0,'FPS:'+inttostr(GetFPS),$FFFFFF,255,0.7);
+if DrawFPS=1 then DrawText2D(Font,GetScreenResX-GetTextWidth(Font,'FPS:' + IntToStr(GetFPS),0.7)-10,0,'FPS:'+inttostr(GetFPS),$FFFFFF,255,0.7);
 
 DrawConsole;
 
@@ -75,7 +75,7 @@ end;
 
 begin
 
- if LoadDGLEngineDLL('..\..\..\System\DGLEngine.dll') then
+ if LoadDGLEngineDLL('..\..\..\System\DGLEngine.dll') then    // LoadDGLEngineDLL('..\..\..\System\DGLEngine.dll')
  begin
   ApplicationName('Tanchiks V 1.0');
 
@@ -87,7 +87,7 @@ begin
   RegProcedure(PROC_PROCESS,@Process);
   RegProcedure(PROC_INIT,@EngineInit);
 
-  SetEngineInitParametrs(800,600,32,0,true,false,false);
+  SetEngineInitParametrs(800,600,32,0,false,true,false);
 
   StartEngine;
 
@@ -96,7 +96,7 @@ begin
 
   AddToLogFile('Log.txt','Game quit',false,true,false);
 
-  FreeDGLEngineDLL('Launcher.exe');
+  FreeDGLEngineDLL();
 
  end;
 

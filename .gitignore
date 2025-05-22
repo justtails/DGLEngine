@@ -39,4 +39,5 @@ __recovery/
 *.stat
 
 # Some files 
+*Log.txt
 fix_encoding.py

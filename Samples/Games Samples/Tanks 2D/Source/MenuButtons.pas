@@ -7,7 +7,7 @@ type
 TGLTextButton = class
 X,Y : integer;
 Font, Tex : cardinal;
-Text : string;
+Text : AnsiString;
 proc : procedure;
 public
  constructor Create;

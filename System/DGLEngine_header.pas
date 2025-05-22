@@ -22,9 +22,9 @@
 unit DGLEngine_header;
 
 interface
-uses Windows, Classes, SysUtils, Graphics, OpenGl;
+uses Windows, Classes, SysUtils, Vcl.Graphics, OpenGl;
 
-function  LoadDGLEngineDLL(FileName : string) : boolean;
+function  LoadDGLEngineDLL(FileName : AnsiString) : boolean;
 procedure FreeDGLEngineDLL(Terminate : boolean = true);
 
 {***Engine***}
@@ -42,7 +42,7 @@ RegProcedure : procedure (ID: WORD; ProcAdress: pointer); stdcall;
 SetEngineInitParametrs : procedure (ResX,ResY,ColorDepth, DisplayFrequency : integer; Fullscreen, VSync, UseEngineSettingsIni : boolean; WriteLog : boolean = true); stdcall;
 SetWindowPosition : procedure (Left, Top : integer); stdcall;
 EnableStencilBuffer : procedure; stdcall;
-SetEngineInifileName : procedure (Name : string); stdcall;
+SetEngineInifileName : procedure (Name : AnsiString); stdcall;
 PleaseNoLogo : procedure; stdcall;
 SetGameProcessInterval : procedure (Interval : byte); stdcall;
 SetCutingPlanes : procedure (ZNear, ZFar : single); stdcall;
@@ -61,23 +61,23 @@ EngineProcessMessages : procedure (var Msg: tagMSG); stdcall;
 EngineMainDraw : procedure; stdcall;
 UpdateRenderRect : procedure (NewWidth,NewHeight : integer); stdcall;
 
-LoadPlugin : function (FileName : string; DGLE_DLL_Handle : THandle) : string; stdcall;
-IsPluginLoaded : function (Name : string) : boolean; stdcall;
-GetPluginHandle : function (Name : string) : THandle; stdcall;
-FreePlugin : procedure (Name : string); stdcall;
+LoadPlugin : function (FileName : AnsiString; DGLE_DLL_Handle : THandle) : AnsiString; stdcall;
+IsPluginLoaded : function (Name : AnsiString) : boolean; stdcall;
+GetPluginHandle : function (Name : AnsiString) : THandle; stdcall;
+FreePlugin : procedure (Name : AnsiString); stdcall;
 
 const
 ENGINE_INIFILE = 'Settings.ini';
 var
-ReadValueFromIniFile : function (Filename, Section, Key: string):string; stdcall;
-WriteValueToIniFile : procedure (Filename, Section, Key, Value : string); stdcall;
+ReadValueFromIniFile : function (Filename, Section, Key: AnsiString):AnsiString; stdcall;
+WriteValueToIniFile : procedure (Filename, Section, Key, Value : AnsiString); stdcall;
 
 const
 ENGINE_LOGFILE = 'DGLEngine_Log.txt';
 var
-AddToLogFile : procedure (FileName, LogStr:String; IsDate : Boolean = false; IsTime : Boolean = false; FileRewrite : boolean = false);  stdcall;
+AddToLogFile : procedure (FileName, LogStr:AnsiString; IsDate : Boolean = false; IsTime : Boolean = false; FileRewrite : boolean = false);  stdcall;
 ApplicationName : procedure (Name : PAnsiChar); stdcall;
-PrintScreen : function (Folder : string = '') : integer; stdcall;
+PrintScreen : function (Folder : AnsiString = '') : integer; stdcall;
 GetFPS : function : integer; stdcall;
 GetScreenResX : function : integer; stdcall;
 GetScreenResY : function : integer; stdcall;
@@ -107,10 +107,10 @@ TRANSCOLOR_AQUA  =  $FFFF00;
 TRANSCOLOR_FUSIA =  $FF00FF;
 var
 LoadTexture : function (BMP : TBitmap; Quality : byte; TransparentColor : integer; ColorTolerance : byte; AlphaMask : TBitmap = nil) : Cardinal; stdcall;
-LoadTGATexture : function (Filename : String; var Texture : Cardinal; Stream : TMemoryStream = nil) : Boolean; stdcall;
+LoadTGATexture : function (Filename : AnsiString; var Texture : Cardinal; Stream : TMemoryStream = nil) : Boolean; stdcall;
 SetDefaultJPGTransparentColorTolerance : procedure (Tolerance : byte); stdcall;
-LoadTextureFromPackage : function (FileName, Name : string; Quality : byte = TEXDETAIL_BEST; TransparentColor : integer = TRANSCOLOR_NONE) : Cardinal;  stdcall;
-LoadTextureFromFile : function (FileName: String; Quality : byte = TEXDETAIL_BEST; TransparentColor : integer = TRANSCOLOR_NONE) : Cardinal;  stdcall;
+LoadTextureFromPackage : function (FileName, Name : AnsiString; Quality : byte = TEXDETAIL_BEST; TransparentColor : integer = TRANSCOLOR_NONE) : Cardinal;  stdcall;
+LoadTextureFromFile : function (FileName: AnsiString; Quality : byte = TEXDETAIL_BEST; TransparentColor : integer = TRANSCOLOR_NONE) : Cardinal;  stdcall;
 FreeTexture : procedure (Texture : Cardinal); stdcall;
 
 DrawTextureToTexture : procedure (TexSource,TexTarget : Cardinal; X,Y : integer); stdcall;
@@ -149,11 +149,11 @@ end;
 var
 GetTextureInfo : function (Texture : Cardinal) : TTextureInfo; stdcall;
 
-LoadFontFromFile : function (Filename : string) : Cardinal; stdcall;
+LoadFontFromFile : function (Filename : AnsiString) : Cardinal; stdcall;
 FreeFont : procedure (Ident : cardinal); stdcall;
 
-ExtractFromPackage : procedure (const PackageName, Name, DestFilename : string); stdcall;
-LoadFromPackage : function (const Filename, Name : string):TMemoryStream; stdcall;
+ExtractFromPackage : procedure (const PackageName, Name, DestFilename : AnsiString); stdcall;
+LoadFromPackage : function (const Filename, Name : AnsiString):TMemoryStream; stdcall;
 
 AddTimer : function (Interval : Cardinal; OnTimerProcedure : pointer) : Cardinal; stdcall;
 DisableTimer : procedure (Ident : Cardinal); stdcall;
@@ -164,10 +164,10 @@ SetTimerInterval : procedure (Ident, Interval : Cardinal); stdcall;
 {Module version: 1.0}
 
 CreateConsole : procedure (Font : Cardinal; Size : real = 1.0; Texture : Cardinal = 0); stdcall;
-RegisterCommandProcedure : procedure (ComName : string; ProcAdress : pointer); stdcall;
-GetLastComParam : function : string; stdcall;
-RegisterCommandValue : procedure (ComName : string; ValueAdress : pointer; MaxValue, MinValue : integer); stdcall;
-AddStringToConsole : procedure (Text : string); stdcall;
+RegisterCommandProcedure : procedure (ComName : AnsiString; ProcAdress : pointer); stdcall;
+GetLastComParam : function : AnsiString; stdcall;
+RegisterCommandValue : procedure (ComName : AnsiString; ValueAdress : pointer; MaxValue, MinValue : integer); stdcall;
+AddStringToConsole : procedure (Text : AnsiString); stdcall;
 ClearConsole : procedure; stdcall;
 ProcessConsole : procedure; stdcall;
 DrawConsole : procedure; stdcall;
@@ -203,9 +203,9 @@ DrawSprite2D : procedure (Texture : Cardinal; X , Y, ImageWidth, ImageHeight,Fra
 DrawSprite2D_VertexColor : procedure (Texture : Cardinal; X , Y, ImageWidth, ImageHeight,FramesXCount, FramesYCount, FrameNumber, Angle, Color1, Color2, Color3, Color4, Alpha1, Alpha2, Alpha3, Alpha4 : integer; FlipX : boolean = false; FlipY : boolean = false); stdcall;
 DrawSprite2D_Tile : procedure (Texture : Cardinal; X, Y, TexWidth, TexHeight, FrameWidth, FrameHeight, FramesXCount, FramesYCount, FrameNumber, Angle, Alpha, Color : integer; Scale : single = 1.0; FlipX : boolean = false; FlipY : boolean = false); stdcall;
 
-DrawText2D : procedure (Font : Cardinal; X,Y : integer; Text : string; Color : integer = $FFFFFF; Alpha : integer = 255; Scale : real = 1.0); stdcall;
-GetTextWidth : function (Font : Cardinal; Text : string; Scale : real = 1.0):integer; stdcall;
-GetTextHeight : function (Font : Cardinal; Text : string; Scale : real = 1.0):integer; stdcall;
+DrawText2D : procedure (Font : Cardinal; X,Y : integer; Text : AnsiString; Color : integer = $FFFFFF; Alpha : integer = 255; Scale : real = 1.0); stdcall;
+GetTextWidth : function (Font : Cardinal; Text : AnsiString; Scale : real = 1.0):integer; stdcall;
+GetTextHeight : function (Font : Cardinal; Text : AnsiString; Scale : real = 1.0):integer; stdcall;
 
 {***Graphics 3D***}
 {Module version: 1.1}
@@ -274,8 +274,8 @@ var
 SetLight : procedure (ID : integer = LIGHT0; X : single = 1;Y : single = 0;Z : single = 1; light_Color : integer =$FFFFFF; Radius : single = INFINITY; Visualize : boolean = false; VisualScale : single = 0.1); stdcall;
 DeactiveLight : procedure (ID : integer = LIGHTS_ALL); stdcall;
 
-CreateFont3D : function (const Fontname : string):integer; stdcall;
-Write3D : procedure (FontIdent: integer; Text: string); stdcall;
+CreateFont3D : function (const Fontname : AnsiString):integer; stdcall;
+Write3D : procedure (FontIdent: integer; Text: AnsiString); stdcall;
 
 const
 //Параметры ScaleType
@@ -305,11 +305,11 @@ TMaterial = record
  diffuse : array [0..2] of byte;
  glossiness : single;
  alpha : byte;
- TexFileName, NormalMapFileName, SpecularMapFileName : string[128];
+ TexFileName, NormalMapFileName, SpecularMapFileName : array [0..127] of AnsiString;
 end;
 
 var
-LoadModel : function (Filename : string; ScaleType : byte = MDL_SCALE_BY_LARGEST_FRAME; Inverted_Normals : boolean = false) : integer; stdcall;
+LoadModel : function (Filename : AnsiString; ScaleType : byte = MDL_SCALE_BY_LARGEST_FRAME; Inverted_Normals : boolean = false) : integer; stdcall;
 FreeModel : procedure (ModelIdent : integer); stdcall;
 DrawModel : procedure (ModelIdent : integer; Frame : integer = 0; Smooth : boolean = true); stdcall;
 ModelFramesCount : function (Modelident : integer):Integer; stdcall;
@@ -322,7 +322,7 @@ ModelsBump : procedure (Active : boolean); stdcall;
 type
 TSceneMesh = record
     Active      : boolean;
-    Name        : string[128];
+    Name        : array[0..127] of AnsiString;
     Pos         : Tvertex;
     Scale       : single;
     Material    : TMaterial;
@@ -336,7 +336,7 @@ TSceneMesh = record
     end;
 
 var
-LoadScene : function (FileName, MeshPath, TexPath : string):cardinal; stdcall;
+LoadScene : function (FileName, MeshPath, TexPath : AnsiString):cardinal; stdcall;
 FreeScene : procedure (Ident : cardinal); stdcall;
 DrawScene : procedure (Ident : cardinal); stdcall;
 SceneBoundingBox : function (Ident : cardinal):TVertex; stdcall;
@@ -344,7 +344,7 @@ CollideBoxWithScene : function (Ident : cardinal; BoxPos, BoxSize : Tvertex):boo
 SceneUseMaterial : procedure (Enable : boolean); stdcall;
 SceneGetLastCollideObjectIndex : function :integer; stdcall;
 SceneObjCount : function ( Ident : cardinal ) : cardinal; stdcall;
-GetSceneObjectIdent : function ( SceneIdent : cardinal; ObjName : string ) : integer; stdcall;
+GetSceneObjectIdent : function ( SceneIdent : cardinal; ObjName : AnsiString ) : integer; stdcall;
 SceneSetObjActive : procedure ( SceneIdent, ObjIdent : cardinal; Active : boolean ); stdcall;
 SceneSetObj : procedure ( SceneIdent, ObjIdent : cardinal; SceneMesh : TSceneMesh ); stdcall;
 SceneGetObj : function ( SceneIdent, ObjIdent : cardinal ) : TSceneMesh; stdcall;
@@ -384,7 +384,7 @@ const
   VERTEX_PROGRAM    = $8620;
   FRAGMENT_PROGRAM  = $8804;
 var
-LoadShader : function (target: Cardinal; shader: string): Cardinal; stdcall;
+LoadShader : function (target: Cardinal; shader: AnsiString): Cardinal; stdcall;
 FreeShader : procedure (Ident : cardinal); stdcall;
 const
   //Параметры Ident
@@ -404,7 +404,7 @@ EndWriteToVideoMemory : procedure; stdcall;
 FreeFromVideoMemory : procedure (Ident : integer); stdcall;
 DrawFromVM : procedure (Ident : integer); stdcall;
 
-CreateAVITexture : function (Filename : string) : integer; stdcall;
+CreateAVITexture : function (Filename : AnsiString) : integer; stdcall;
 FreeAVITexture : procedure (index : integer); stdcall;
 SetAviTexture : procedure (index : integer); stdcall;
 
@@ -436,25 +436,25 @@ NET_Init : function : boolean; stdcall;
 NET_Free : procedure; stdcall;
 NET_Clear : procedure; stdcall;
 NET_ClearAPL : procedure; stdcall;
-NET_GetExternalIP : function : PChar; stdcall;
-NET_GetHost : function : PChar; stdcall;
-NET_GetLocalIP : function : PChar; stdcall;
-NET_HostToIP : function (Host: PChar): PChar; stdcall;
+NET_GetExternalIP : function : PAnsiChar; stdcall;
+NET_GetHost : function : PAnsiChar; stdcall;
+NET_GetLocalIP : function : PAnsiChar; stdcall;
+NET_HostToIP : function (Host: PAnsiChar): PAnsiChar; stdcall;
 NET_InitSocket : function (Port: WORD): integer; stdcall;
 NET_Write : function (Buf: pointer; Count: integer): boolean; stdcall;
-NET_Send : function (IP: PChar; Port: WORD; APL: boolean): integer; stdcall;
-NET_Recv : function (Buf: pointer; Count: integer; var IP: PChar; var Port: integer; var RecvBytes: integer): integer; stdcall;
+NET_Send : function (IP: PAnsiChar; Port: WORD; APL: boolean): integer; stdcall;
+NET_Recv : function (Buf: pointer; Count: integer; var IP: PAnsiChar; var Port: integer; var RecvBytes: integer): integer; stdcall;
 NET_Update : procedure; stdcall;
 
 {***Sound****}
 {Module version: 1.0a}
 
-PlayMusic : procedure (Filename : string; Looped : boolean = true); stdcall;
+PlayMusic : procedure (Filename : AnsiString; Looped : boolean = true); stdcall;
 StopMusic : procedure; stdcall;
 IsMusicPlaying : function : boolean; stdcall;
 
 DirectSoundInit : procedure; stdcall;
-LoadSample : function (Filename : string; FromPackage : boolean = false; Name : string = ''):integer; stdcall;
+LoadSample : function (Filename : AnsiString; FromPackage : boolean = false; Name : AnsiString = ''):integer; stdcall;
 FreeSample : procedure (Index : integer); stdcall;
 PlaySample : procedure (Index : integer); stdcall;
 SetSampleVolume : procedure (Index : integer; Volume : byte); stdcall;
@@ -483,7 +483,7 @@ var
 MouseWheelDelta : function : integer; stdcall;
 StartKeyboardTextInput : procedure; stdcall;
 EndKeyboardTextInput : procedure; stdcall;
-GetKeyboardText : function : string; stdcall;
+GetKeyboardText : function : AnsiString; stdcall;
 const
 JOY_MAIN = $000000;
 var
@@ -811,18 +811,18 @@ begin
   @IsTexCompressionSupported:=GetProcAddress(DGLEngineDLL_Handle,'IsTexCompressionSupported');
 end;
 
-function LoadDGLEngineDLL(FileName : string) : boolean;
+function LoadDGLEngineDLL(FileName : AnsiString) : boolean;
 var DLL_ver : function : byte; stdcall;
 begin
  result:=false;
 
  if not FileExists(FileName) then
  begin
- MessageBox(0, PChar('DGLEngine DLL ("'+ Filename +'") not found!'), 'DGLEngine header', MB_OK or MB_ICONERROR);
+ MessageBoxA(0, PAnsiChar('DGLEngine DLL ("'+ Filename +'") not found!'), 'DGLEngine header', MB_OK or MB_ICONERROR);
  Exit;
  end;
 
- DGLEngineDLL_Handle:=LoadLibrary(PChar(Filename));
+ DGLEngineDLL_Handle:=LoadLibraryA(PAnsiChar(Filename));
  if DGLEngineDLL_Handle=0 then
  begin
  MessageBox(0, 'Couldn''t load DGLEngine DLL for unknown reason!', 'DGLEngine header', MB_OK or MB_ICONERROR);
